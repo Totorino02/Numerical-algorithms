@@ -6,8 +6,6 @@
 """
 import sys
 from gauss import gauss
-from math import ceil
-
 
 class gaussJordan:
     def __init__(self, file):
