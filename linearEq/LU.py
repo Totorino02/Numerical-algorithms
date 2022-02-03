@@ -110,7 +110,7 @@ class LU:
 
 
 
-algoLu = LU("./matrix.txt")
+algoLu = LU("matrix.txt")
 
 algoLu.showMatrixU()
 algoLu.showMatrixL()
