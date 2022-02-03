@@ -1,6 +1,6 @@
-###Numerical resolution of linear equation
+### Numerical resolution of linear equation
 
-####Table of contents
+#### Table of contents
 - [Gauss](#Gauss Method)
 - [Gauss-Jordan](#Gauss-Jordan)
 - [Gauss-Seidel](#Gauss-Seidel)
