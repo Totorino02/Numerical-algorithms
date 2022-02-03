@@ -8,7 +8,7 @@
 import sys
 class gauss:
     """
-        methode de résolution numérique des equation linéaire avec la methode de Gauss
+        Numerical resolution of linear equations with the method of Gauss
     """
     def __init__(self, file):
         self.dim = self.countLine(file)
