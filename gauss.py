@@ -4,7 +4,7 @@
     Author: HOUNSI Madouvi antoine-sebastien
     Date: 29/01/2022
 """
-from math import floor, ceil
+
 import sys
 class gauss:
     """
@@ -23,17 +23,17 @@ class gauss:
                 line = sys.stdin.readline().split("|")
                 self.matrix.append([(float)(i) for i in line[0].split()])
                 self.vect.append(float(line[1]))
-            #ajout du vecteur
+            #add of the vector
             for i in range(self.dim):
                 self.matrix[i].append(self.vect[i])
         except TypeError:
-            print("Type Error :=> Valeur saisi incorrect")
+            print("Type Error :=> incorrect input")
         except RuntimeError:
-            print("Runtime Error :=> Run time error veuillez réesayer")
+            print("Runtime Error :=> Run time error please try aigain")
         except ValueError:
-            print("Value Error :=> une valeur saisi est inaproprié")
+            print("Value Error :=> you enter innapropriate value")
         except IndexError:
-            print("Index Error :=> votre Matrice n'est pas carré !")
+            print("Index Error :=> not square matrix !")
 
     def countLine(self,file):
         """
@@ -53,17 +53,16 @@ class gauss:
             for j in range(i+1, dim):
                 cpt = i
                 while matrix[i][i] == 0 :
-                    # inversion si le debut considérable du pivot est aussi null: L_i <-> L_cpt
+                    # inversion if the begin of the pivot is null: L_i <-> L_cpt
                     temporalTab = [x for x in matrix[i]]
                     matrix[i] = [x for x in matrix[cpt+1]]
                     matrix[cpt + 1] = [x for x in temporalTab]
                 if matrix[j][i] != 0:
                     fMultiplicatif = -(matrix[i][i]/matrix[j][i])
                     matrix[j] = [(fMultiplicatif * x) for x in matrix[j]]
-                    #dernière étape de la modif de la valeur
+                    #last step of the modification the value
                     for k in range(i, dim+1):
                         matrix[j][k] = (matrix[i][k] + matrix[j][k])
-                    #---print(matrix[j])
         return matrix
 
     def showResult(self):
@@ -74,7 +73,7 @@ class gauss:
             vect[i] = matrix[i][dim]
             matrix[i].pop(dim)
         self.results = list()
-        # impossibilité ou infinité de solution
+        # impossibility of the solution
         noSolvable = 0
         for i in range(dim-1, -1, -1):
             if matrix[i][i] == 0:
@@ -87,7 +86,7 @@ class gauss:
                         return
                 print("Il existe une infinité de solution")
                 return
-        #solution unique
+        #unique solution
         try:
             self.results.append(round(vect[dim-1]/matrix[dim-1][dim-1],2))
             for i in range(dim-2, -1, -1):
@@ -100,7 +99,7 @@ class gauss:
             self.results.reverse()
             print(self.results)
         except ZeroDivisionError:
-            print("division par zéro")
+            print("division per zéro")
 
     def showTM(self):
         for _ in range(self.dim):
