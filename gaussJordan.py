@@ -42,19 +42,21 @@ class gaussJordan:
         return cpt
 
     def showResult(self):
+        # upper triangular matrix from the gauss class
         self.matrixT1 = gauss(self.file).triangularize()
-        # print(self.matrixT1)
+
+        # modification of the matrix to the the diagonal values to 1
         for i in range(self.dim):
             coef = self.matrixT1[i][i]
             self.matrixT1[i] = [(1/coef)*i for i in self.matrixT1[i]]
 
+        # last step output diagonal matrix of 1
         for i in range(self.dim-1, -1,-1):
             for j in range(i-1, -1,-1):
                 coef = self.matrixT1[j][i]
                 for k in range(self.dim + 1):
                     self.matrixT1[j][k] = (self.matrixT1[j][k] -coef* self.matrixT1[i][k])
 
-        # print(self.matrixT1)
         for i in range(self.dim):
             self.result.append(round(self.matrixT1[i][self.dim],2))
         self.result.reverse()
