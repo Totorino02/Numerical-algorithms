@@ -1,7 +1,7 @@
 ### Numerical resolution of linear equation
 
 #### Table of contents
-- [Gauss](#Gauss Method)
+- [Gauss](#Gauss)
 - [Gauss-Jordan](#Gauss-Jordan)
 - [Gauss-Seidel](#Gauss-Seidel)
 - [Decompostion of LU](#LU)
