@@ -12,7 +12,7 @@
 #### Gauss 
     - Algorithm
         
-![gauss method illustration](../images/gauss.gif)
+![gauss method illustration](../images/gauss.png)
 
 #### Gauss-Jordan
     - Algorithm
