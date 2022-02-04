@@ -5,7 +5,6 @@
 - [Gauss-Jordan](#Gauss-Jordan)
 - [Gauss-Seidel](#Gauss-Seidel)
 - [Decompostion of LU](#LU)
-- [Decomposition of Crout](#crout)
 - [Jaccobi](#Jaccobi)
 
 

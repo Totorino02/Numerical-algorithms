@@ -49,20 +49,29 @@ class gauss:
 
     def triangularize(self):
         dim = self.dim; vect = self.vect; matrix = self.matrix
-        for i in range(dim):
-            for j in range(i+1, dim):
-                cpt = i
-                while matrix[i][i] == 0 :
-                    # inversion if the begin of the pivot is null: L_i <-> L_cpt
-                    temporalTab = [x for x in matrix[i]]
-                    matrix[i] = [x for x in matrix[cpt+1]]
-                    matrix[cpt + 1] = [x for x in temporalTab]
-                if matrix[j][i] != 0:
-                    fMultiplicatif = -(matrix[i][i]/matrix[j][i])
-                    matrix[j] = [(fMultiplicatif * x) for x in matrix[j]]
-                    #last step of the modification the value
-                    for k in range(i, dim+1):
-                        matrix[j][k] = (matrix[i][k] + matrix[j][k])
+        try:
+            for i in range(dim):
+                for j in range(i+1, dim):
+                    cpt = i
+                    while matrix[i][i] == 0 :
+                        # inversion if the begin of the pivot is null: L_i <-> L_cpt
+                        temporalTab = [x for x in matrix[i]]
+                        matrix[i] = [x for x in matrix[cpt+1]]
+                        matrix[cpt + 1] = [x for x in temporalTab]
+                    if matrix[j][i] != 0:
+                        fMultiplicatif = -(matrix[i][i]/matrix[j][i])
+                        matrix[j] = [(fMultiplicatif * x) for x in matrix[j]]
+                        #last step of the modification the value
+                        for k in range(i, dim+1):
+                            matrix[j][k] = (matrix[i][k] + matrix[j][k])
+        except RuntimeError:
+            return "Runtime Error"
+        except TypeError:
+            return "Type error"
+        except IndexError:
+            return "Index error"
+        except EOFError:
+            return "Eof error"
         return matrix
 
     def showResult(self):
