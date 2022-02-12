@@ -51,19 +51,15 @@ class LU:
         for i in range(self.len):
             self.matrixU[i][i] = 1
         #
-
-
-
         for i in range(1, self.len):
-            for j in range(i,self.len):
+            for j in range(i, self.len):
                 S1 = 0; S2 = 0
-                for k in range(1,i):
+                for k in range(i):
                     S1 += self.matrixL[j][k]*self.matrixU[k][i]
-                    S2 += self.matrixL[i][k]*self.matrixU[k][j]
-                #L[i][j] && U[j][i]
-                self.matrixL[j][i] = round(self.matrix[j][i] - S1, 2)
-                if j!=i :
-                    self.matrixU[j][i] = round((self.matrix[i][j] - S2) / self.matrixU[i][i], 2)
+                    S2 += self.matrixL[i][k] * self.matrixU[k][j];
+                self.matrixL[j][i] = self.matrix[j][i] - S1
+                self.matrixU[i][j] = (self.matrix[i][j] - S2)/self.matrixL[i][i]
+
         return self.matrixL, self.matrixU
 
     def showMatrixL(self):
@@ -90,28 +86,23 @@ class LU:
         """
         #uTM => sY
         sY = list()
-        sY.append(self.vect[1]/self.matrixL[1][1])
+        sY.append(self.vect[0]/self.matrixL[0][0])
         for i in range(1, self.len):
             s1 = 0
             for k in range(i):
-                s1 += self.matrixL[i][k]*sY[k]
+                temp = self.matrixL[i][k]*sY[k]
+                s1 += temp
             val = (self.vect[i] - s1)/self.matrixL[i][i]
             sY.append(val)
         #lTM => s
         s = list()
         s.append(sY[self.len-1])
-        for i in range(self.len-1, 0, -1):
+        for i in range(self.len-2, -1, -1):
             s1 = 0
             for k in range(self.len-1,i,-1):
-                s1 += self.matrixU[i][k] * s[self.len-k]
+                temp = self.matrixU[i][k] * s[self.len-k-1]
+                s1 += temp
             val = (sY[i] - s1) / self.matrixU[i][i]
             s.append(val)
         return s
 
-
-
-algoLu = LU("matrix.txt")
-
-algoLu.showMatrixU()
-algoLu.showMatrixL()
-print(algoLu.solution())
