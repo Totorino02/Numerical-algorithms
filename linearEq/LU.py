@@ -16,11 +16,30 @@ class LU:
         self.matrixU = list()
         self.vect = list()
         for _ in range(self.len):
+            """Read data from the file"""
             line = sys.stdin.readline().split("|")
             self.matrix.append([(float)(i) for i in line[0].split()])
             self.matrixU.append([0 for i in range(self.len)])
             self.matrixL.append([0 for i in range(self.len)])
             self.vect.append(float(line[1]))
+        #
+        for i in range(self.len):
+            self.matrix[i].append(self.vect[i])
+
+        # if a value in a diagonal is null, inverse the line with another line
+        for i in range(self.len):
+            cpt = i
+            while self.matrix[i][i] == 0 and cpt < self.len:
+                # inversion if the begin of the pivot is null: L_i <-> L_cpt
+                temporalTab = [x for x in self.matrix[i]]
+                self.matrix[i] = [x for x in self.matrix[cpt + 1]]
+                self.matrix[cpt + 1] = [x for x in temporalTab]
+                cpt += 1
+        #
+        for i in range(self.len):
+            self.vect[i] = self.matrix[i][self.len]
+            self.matrix[i].pop(self.len)
+
         self.triangularize()
 
     def countLine(self,file):
@@ -50,7 +69,8 @@ class LU:
             self.matrixU[0][i] = round((self.matrix[0][i]) / (self.matrixL[0][0]), 2)
         for i in range(self.len):
             self.matrixU[i][i] = 1
-        #
+
+        # triangularize the matrix
         for i in range(1, self.len):
             for j in range(i, self.len):
                 S1 = 0; S2 = 0
@@ -104,5 +124,6 @@ class LU:
                 s1 += temp
             val = (sY[i] - s1) / self.matrixU[i][i]
             s.append(val)
+        s = [round(i,2) for i in s]
+        s.reverse()
         return s
-
