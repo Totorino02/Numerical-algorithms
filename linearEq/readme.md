@@ -7,6 +7,8 @@
 - [Decompostion of LU](#LU)
 - [Choleski](#Choleski)
 - [Jaccobi](#Jaccobi)
+- [Invert of matrix](#InvertMat)
+- [Decomposition](#Decomposition)
 
 
 #### Gauss 
@@ -27,4 +29,10 @@
 ![gauss-seidel method illustration](../images/lu.gif)
 
 #### Choleski
+    -Algorithm
+
+#### InvertMat
+    -Algorithm
+
+#### Decomposition
     -Algorithm

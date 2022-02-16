@@ -2,7 +2,6 @@ from gaussJordan import gaussJordan
 from LU import LU
 from choleski import choleski
 from inverse import invert
-# test of gaus-Jordan method
 
 alGaussJ1 = LU("/home/totorino/Bureau/CIC Semestre3/MTH300/mth 300 algo numérique/codes/eqLineaire/linearEq/matrix.txt")
 alGaussJ1.showMatrixL()
