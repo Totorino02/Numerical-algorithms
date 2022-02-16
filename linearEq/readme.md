@@ -5,6 +5,7 @@
 - [Gauss-Jordan](#Gauss-Jordan)
 - [Gauss-Seidel](#Gauss-Seidel)
 - [Decompostion of LU](#LU)
+- [Choleski](#Choleski)
 - [Jaccobi](#Jaccobi)
 
 
@@ -24,3 +25,6 @@
 #### LU
     - Algorithm
 ![gauss-seidel method illustration](../images/lu.gif)
+
+#### Choleski
+    -Algorithm
