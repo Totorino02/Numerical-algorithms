@@ -25,10 +25,6 @@ class choleski:
                 self.matrixU.append([0 for i in range(self.dim)])
                 self.matrixL.append([0 for i in range(self.dim)])
                 self.vect.append(float(line[1]))
-
-            # add of the vector to the matrix
-            """for i in range(self.dim):
-                self.matrix[i].append(self.vect[i])"""
         except TypeError:
             print("type error")
 
