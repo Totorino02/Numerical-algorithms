@@ -1,5 +1,4 @@
 from gaussJordan import gaussJordan
-from gaussJordan import gaussJordan
 from LU import LU
 from choleski import choleski
 from inverse import invert
@@ -14,7 +13,8 @@ print(alGaussJ1.solution())
 
 #alGaussJ = gaussJordan("/home/totorino/Bureau/CIC Semestre3/MTH300/mth 300 algo numérique/codes/eqLineaire/linearEq/matrix.txt")
 #alGaussJ.showResult()
-alGaussJ = invert("/home/totorino/Bureau/CIC Semestre3/MTH300/mth 300 algo numérique/codes/eqLineaire/linearEq/matrix.txt")
+alGaussJ = choleski("/home/totorino/Bureau/CIC Semestre3/MTH300/mth 300 algo numérique/codes/eqLineaire/linearEq/matrix.txt")
 
-alGaussJ.invert()
+alGaussJ.triangularize()
+print(alGaussJ.solution())
 
