@@ -47,23 +47,21 @@ class choleski:
             self.matrixL[i][0] = self.matrix[i][0]/self.matrixL[0][0]
 
         for i in range(1,self.dim,1):
+            #print(self.matrixL)
             for j in range(i, self.dim):
                 sum = 0
                 if i == j:
                     for k in range(j):
-                        sum += pow(self.matrix[i][j],2)
+                        sum += pow(self.matrixL[j][k],2)
                     self.matrixL[j][i] = pow(self.matrix[j][i] - sum, 0.5)
                 else:
                     for k in range(j):
                         sum += self.matrixL[j][k]*self.matrixL[i][k]
-                    self.matrixL[j][i] = (self.matrix[j][i] - sum)/self.matrix[i][i]
+                    self.matrixL[j][i] = (self.matrix[j][i] - sum)/self.matrixL[i][i]
 
         for i in range(self.dim):
             for j in range(self.dim):
                 self.matrixU[i][j] = self.matrixL[j][i]
-
-        print(self.matrixL)
-        print(self.matrixU)
 
     def solution(self):
         """
@@ -92,6 +90,24 @@ class choleski:
         s = [round(i,2) for i in s]
         s.reverse()
         return s
+
+    def showMatrixL(self):
+        """
+            :return:
+        """
+        for _ in range(self.dim):
+            for i in range(self.dim):
+                print('{:7.2f}'.format(self.matrixL[_][i]), end="") # the 7.2f is arbitrary
+            print("\n")
+
+    def showMatrixU(self):
+        """
+            :return:
+        """
+        for _ in range(self.dim):
+            for i in range(self.dim):
+                print('{:7.2f}'.format(self.matrixU[_][i]), end="") # the 7.2f is arbitrary
+            print("\n")
 
 """
     problems : 

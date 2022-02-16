@@ -39,3 +39,4 @@ class determinant:
                 if not line.isspace():
                     cpt += 1
         return cpt
+
