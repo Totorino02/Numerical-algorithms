@@ -4,7 +4,6 @@
     Author: HOUNSI Madouvi antoine-sebastien
     Date: 16/02/2022
 """
-import math
 import sys
 from math import pow
 
