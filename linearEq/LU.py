@@ -76,7 +76,7 @@ class LU:
                 S1 = 0; S2 = 0
                 for k in range(i):
                     S1 += self.matrixL[j][k]*self.matrixU[k][i]
-                    S2 += self.matrixL[i][k] * self.matrixU[k][j];
+                    S2 += self.matrixL[i][k] * self.matrixU[k][j]
                 self.matrixL[j][i] = self.matrix[j][i] - S1
                 self.matrixU[i][j] = (self.matrix[i][j] - S2)/self.matrixL[i][i]
 
