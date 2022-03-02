@@ -17,6 +17,8 @@ class lagrange:
 
         if len(X) != len(Y):
             print("Vos tableaux ne sont pas de meme taille")
+        self.X = np.array(X)
+        self.Y = np.array(Y)
         self.dim = len(X)
         Xval = np.arange(-10,10,0.1)
         Yval = list()

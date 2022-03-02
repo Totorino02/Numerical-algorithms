@@ -28,7 +28,6 @@ class newton:
         Coefs = gauss(matrix, self.Y).showResult()
 
         # polynomes values
-
         Xval = np.arange(-10,10,0.1)
         Yval = list()
         for val in Xval:
