@@ -22,7 +22,7 @@ class MoindreCarre:
         if len(self.X) != len(self.Y):
             print("Vos tableaux ne sont pas de meme taille")
         self.dim = len(self.X)
-        self.deg = 131  # int(input("Degré de poly.: "))
+        self.deg = 3  # int(input("Degré de poly.: "))
         matrix = np.zeros((self.deg + 1, self.deg + 1))
         vect = list()
         maxDeg = 2 * self.deg
@@ -39,20 +39,25 @@ class MoindreCarre:
             vect.append(sum(temp))
 
         # polynom coefs
-        self.Coefs = gauss(matrix, vect).showResult()
-        print(self.Coefs)
-        # print the graph
-        Xval = np.arange(-10, 10, 0.1)
-        Yval = list()
-        for val in Xval:
-            Yval.append(self.calc(val))
-        plt.plot(Xval, Yval, label='Courbe obtenue', c='black')
-        plt.scatter(self.X, self.Y, c='red', label='Points Données')
-        plt.title("Interpolation de Moindre carré")
-        plt.xlabel("X --->")
-        plt.ylabel("Y --->")
-        plt.legend()
-        plt.show()
+        try:
+            self.Coefs = gauss(matrix, vect).showResult()
+            print(self.Coefs)
+            # print the graph
+            Xval = np.arange(-10, 10, 0.1)
+            Yval = list()
+            for val in Xval:
+                Yval.append(self.calc(val))
+            plt.plot(Xval, Yval, label='Courbe obtenue', c='black')
+            plt.scatter(self.X, self.Y, c='red', label='Points Données')
+            plt.title("Interpolation de Moindre carré")
+            plt.xlabel("X --->")
+            plt.ylabel("Y --->")
+            plt.legend()
+            plt.show()
+        except ValueError:
+            print("Valeurs mal définies")
+        except TypeError:
+            print("None Type n'est pas un type primitif")
 
     def calc(self, x):
         val = 0

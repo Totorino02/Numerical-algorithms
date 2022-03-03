@@ -70,8 +70,7 @@ class gauss:
                     elif vect[i] == 0:
                         print("Il existe une infinité de solution")
                         return
-                print("Il existe une infinité de solution")
-                return None
+                raise ValueError("Il existe une infinité de solution")
         #unique solution
         try:
             self.results.append(round(vect[dim-1]/matrix[dim-1][dim-1],2))
