@@ -6,12 +6,13 @@
 """
 import sys
 from math import pow
+from os.path import dirname, join
 
 class choleski:
 
     def __init__(self, file):
         self.file = file
-        sys.stdin = open(self.file)
+        sys.stdin = open(join(dirname(__file__), self.file))
         self.dim = self.countLine(file)
         self.matrix = list()
         self.matrixL = list()
@@ -34,7 +35,7 @@ class choleski:
             :return: nbOfLine
         """
         cpt = 0
-        with open(file) as f:
+        with open(join(dirname(__file__), self.file)) as f:
             for line in f:
                 if not line.isspace():
                     cpt += 1

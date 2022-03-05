@@ -1,11 +1,20 @@
-from gaussJordan import gaussJordan
-from LU import LU
-from choleski import choleski
-from inverse import invert
-from jacobi import jacobi
-from gaussSeidel import gaussSeidel
-from lagrange import lagrange
-from newton import newton
-from moindreCarre import MoindreCarre
+from linearEq.directMethods.choleski import choleski
+from linearEq.directMethods.gauss import gauss
+from linearEq.directMethods.gaussJordan import gaussJordan
+from linearEq.directMethods.LU import LU
+from linearEq.iterativeMethods.jacobi import jacobi
+from linearEq.iterativeMethods.gaussSeidel import gaussSeidel
 
-mdc = MoindreCarre("/home/totorino/Bureau/CIC Semestre3/MTH300/mth 300 algo numérique/codes/eqLineaire/linearEq/interpolation.txt")
+### Methods directs
+chski = choleski("matrix.txt")
+gauss = gauss("matrix.txt")
+gaussJ = gaussJordan("matrix.txt")
+lu = LU("matrix.txt")
+
+chski.solution()
+
+### Methods iteratives
+jkb = jacobi("matrix.txt")
+gs = gaussSeidel("matrix.txt")
+print("GaussSeidel: ", gs.solution())
+print("Jacobi: ", jkb.solution())

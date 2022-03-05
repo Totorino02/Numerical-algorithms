@@ -1,16 +1,19 @@
 """
-    Name: jacobi.py
-    Goal: Numerical resolution of linear equations using the method of jacobi
+    Name: gaussSeidel.py
+    Goal: Numerical resolution of linear equations using the method of gauss-seidel
     Author: HOUNSI Madouvi antoine-sebastien
-    Date: 19/02/2022
+    Date: 23/02/2022
 """
 import sys
 from math import pow
-class jacobi:
+from os.path import dirname, join
+
+class gaussSeidel:
 
     def __init__(self, file):
-        sys.stdin = open(file)
-        self.dim = self.countLine(file)
+        self.file = file
+        sys.stdin = open(join(dirname(__file__), self.file))
+        self.dim = self.countLine(self.file)
         self.matrix = list()
         self.vect = list()
         self.e = 0.00001
@@ -28,7 +31,7 @@ class jacobi:
             :return: nbOfLine
         """
         cpt = 0
-        with open(file) as f:
+        with open(join(dirname(__file__), self.file)) as f:
             for line in f:
                 if not line.isspace():
                     cpt += 1
@@ -53,7 +56,6 @@ class jacobi:
         else: return False
 
     def solution(self):
-        solution = [0 for i in range(self.dim)]
         cpt = 0
         while self.test(self.initialVal) != True and cpt<100:
             cpt +=1
@@ -63,6 +65,6 @@ class jacobi:
                     if j != i:
                         sum += self.matrix[i][j]*self.initialVal[j]
                 Xi = (1/self.matrix[i][i])*(self.vect[i]-sum)
-                solution[i] = Xi
-            self.initialVal = [i for i in solution]
-        return  self.initialVal
+                self.initialVal[i] = Xi
+                #print(self.initialVal)
+        return self.initialVal

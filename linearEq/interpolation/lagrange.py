@@ -7,11 +7,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+from os.path import dirname, join
+
 class lagrange:
 
     def __init__(self, file):
         self.file = file
-        sys.stdin = open(self.file)
+        sys.stdin = open(join(dirname(__file__), self.file))
         X = [float(i) for i in sys.stdin.readline().split()]
         Y = [float(i) for i in sys.stdin.readline().split()]
 

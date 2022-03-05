@@ -6,12 +6,15 @@
 """
 
 import sys
+from os.path import dirname, join
+
 class gauss:
     """
         Numerical resolution of linear equations with the method of Gauss
     """
     def __init__(self, file):
-        self.dim = self.countLine(file)
+        self.file = file
+        self.dim = self.countLine(self.file)
         self.matrixV(file)
 
     def matrixV(self,file):
@@ -41,7 +44,7 @@ class gauss:
             :return: nbOfLine
         """
         cpt = 0
-        with open(file) as f:
+        with open(join(dirname(__file__), self.file)) as f:
             for line in f:
                 if not line.isspace():
                     cpt+=1
@@ -75,7 +78,7 @@ class gauss:
             return "Eof error"
         return matrix
 
-    def showResult(self):
+    def solution(self):
         self.triangularize()
         matrix = self.matrix; vect = self.vect
         dim = self.dim
@@ -89,13 +92,10 @@ class gauss:
             if matrix[i][i] == 0:
                 if i == dim-1:
                     if vect[i] != 0:
-                        print("Solution impossible")
-                        return
+                        return "Solution impossible"
                     elif vect[i] == 0:
-                        print("Il existe une infinité de solution")
-                        return
-                print("Il existe une infinité de solution")
-                return
+                        return "Il existe une infinité de solution"
+                return "Il existe une infinité de solution"
         #unique solution
         try:
             self.results.append(round(vect[dim-1]/matrix[dim-1][dim-1],2))
@@ -107,9 +107,9 @@ class gauss:
                 res = (vect[i] -x)/(matrix[i][i])
                 self.results.append(round(res,2))
             self.results.reverse()
-            print(self.results)
+            return self.results
         except ZeroDivisionError:
-            print("division per zéro")
+            return "division per zéro"
 
     def showTM(self):
         for _ in range(self.dim):

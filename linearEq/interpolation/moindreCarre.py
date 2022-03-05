@@ -8,14 +8,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 from math import pow
-from gaussForVal import gauss
+from linearEq.utils.gaussForVal import gauss
+from os.path import dirname, join
 
 
 class MoindreCarre:
 
     def __init__(self, file):
         self.file = file
-        sys.stdin = open(self.file)
+        sys.stdin = open(join(dirname(__file__), self.file))
         self.X = [float(i) for i in sys.stdin.readline().split()]
         self.Y = [float(i) for i in sys.stdin.readline().split()]
 

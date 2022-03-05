@@ -5,12 +5,13 @@
     Date: 03/02/2022
 """
 import sys
-from gauss import gauss
+from linearEq.directMethods.gauss import gauss
+from os.path import dirname, join
 
 class gaussJordan:
     def __init__(self, file):
         self.file = file
-        sys.stdin = open(self.file)
+        sys.stdin = open(join(dirname(__file__), self.file))
         self.dim = self.countLine(file)
         self.matrix = list()
         self.vect = list()
@@ -33,13 +34,13 @@ class gaussJordan:
             :return: nbOfLine
         """
         cpt = 0
-        with open(file) as f:
+        with open(join(dirname(__file__), self.file)) as f:
             for line in f:
                 if not line.isspace():
                     cpt += 1
         return cpt
 
-    def showResult(self):
+    def solution(self):
         # upper triangular matrix from the gauss class
         self.matrixT1 = gauss(self.file).triangularize()
 
@@ -58,5 +59,5 @@ class gaussJordan:
         for i in range(self.dim):
             self.result.append(round(self.matrixT1[i][self.dim],2))
         self.result.reverse()
-        print(self.result)
+        return self.result
 
