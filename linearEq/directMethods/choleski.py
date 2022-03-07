@@ -29,6 +29,17 @@ class choleski:
         except TypeError:
             print("type error")
 
+    def isSymetric(self):
+        self.counter = 0
+        for i in range(self.dim):
+            for j in range(self.dim):
+                if self.matrix[i][j] != self.matrix[j][i]:
+                    self.counter += 1
+        if self.counter == 0:
+            return True
+        else:
+            return False
+
     def countLine(self, file):
         """
             :param file:
@@ -42,13 +53,10 @@ class choleski:
         return cpt
 
     def triangularize(self):
-
         self.matrixL[0][0] = pow(self.matrix[0][0], 0.5)
         for i in range(1,self.dim,1):
             self.matrixL[i][0] = self.matrix[i][0]/self.matrixL[0][0]
-
         for i in range(1,self.dim,1):
-            #print(self.matrixL)
             for j in range(i, self.dim):
                 sum = 0
                 if i == j:
@@ -57,19 +65,21 @@ class choleski:
                     self.matrixL[j][i] = pow(self.matrix[j][i] - sum, 0.5)
                 else:
                     for k in range(j):
-                        sum += self.matrixL[j][k]*self.matrixL[i][k]
+                        sum += self.matrixL[j][k]*self.matrixL[k][i]
                     self.matrixL[j][i] = (self.matrix[j][i] - sum)/self.matrixL[i][i]
-
         for i in range(self.dim):
             for j in range(self.dim):
                 self.matrixU[i][j] = self.matrixL[j][i]
-
     def solution(self):
         """
             :return: solution
         """
         #uTM => sY
         sY = list()
+        if self.isSymetric():
+            self.triangularize()
+        else:
+            return "La Matrice n'est pas symetrique"
         sY.append(self.vect[0]/self.matrixL[0][0])
         for i in range(1, self.dim):
             s1 = 0
@@ -80,7 +90,7 @@ class choleski:
             sY.append(val)
         #lTM => s
         s = list()
-        s.append(sY[self.dim-1])
+        s.append(sY[self.dim-1]/self.matrixU[self.dim-1][self.dim-1])
         for i in range(self.dim-2, -1, -1):
             s1 = 0
             for k in range(self.dim-1,i,-1):

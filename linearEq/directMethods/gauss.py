@@ -13,9 +13,9 @@ class gauss:
         Numerical resolution of linear equations with the method of Gauss
     """
     def __init__(self, file):
-        self.file = file
+        self.file = join(dirname(__file__), file)
         self.dim = self.countLine(self.file)
-        self.matrixV(file)
+        self.matrixV(self.file)
 
     def matrixV(self,file):
         try:
@@ -44,7 +44,7 @@ class gauss:
             :return: nbOfLine
         """
         cpt = 0
-        with open(join(dirname(__file__), self.file)) as f:
+        with open(self.file) as f:
             for line in f:
                 if not line.isspace():
                     cpt+=1
@@ -55,19 +55,26 @@ class gauss:
         try:
             for i in range(dim):
                 for j in range(i+1, dim):
-                    cpt = i
-                    while matrix[i][i] == 0 and cpt < dim :
+                    while matrix[i][i] == 0 :
                         # inversion if the begin of the pivot is null: L_i <-> L_cpt
-                        temporalTab = [x for x in matrix[i]]
-                        matrix[i] = [x for x in matrix[cpt+1]]
-                        matrix[cpt + 1] = [x for x in temporalTab]
-                        cpt += 1
+                        """tempCtab = [self.matrix[x][i] for x in range(dim)]
+                        maxValIndex = tempCtab.index(max(tempCtab))"""
+                        tempCtab = matrix[i][i]
+                        maxValIndex = i
+                        for cpt in range(dim):
+                            if abs(matrix[cpt][i]) > tempCtab:
+                                maxValIndex = cpt
+                        temporalTab = [x for x in self.matrix[i]]
+                        self.matrix[i] = [x for x in self.matrix[maxValIndex]]
+                        self.matrix[maxValIndex] = [x for x in temporalTab]
+                    #print(matrix)
                     if matrix[j][i] != 0:
                         fMultiplicatif = -(matrix[i][i]/matrix[j][i])
                         matrix[j] = [(fMultiplicatif * x) for x in matrix[j]]
                         #last step of the modification the value
                         for k in range(i, dim+1):
                             matrix[j][k] = (matrix[i][k] + matrix[j][k])
+                    #print(i,j ,": ", matrix[j])
         except RuntimeError:
             return "Runtime Error"
         except TypeError:

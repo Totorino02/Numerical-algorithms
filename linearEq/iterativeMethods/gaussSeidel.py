@@ -24,6 +24,23 @@ class gaussSeidel:
             self.matrix.append([(float)(i) for i in line[0].split()])
             self.vect.append(float(line[1]))
             self.initialVal.append(float(line[2]))
+        #
+        for i in range(self.dim):
+            self.matrix[i].append(self.vect[i])
+
+        # if a value in a diagonal is null, inverse the line with another line
+        for i in range(self.dim):
+            while self.matrix[i][i] == 0:
+                # inversion if the begin of the pivot is null: L_i <-> L_maxVal
+                tempCtab = [self.matrix[x][i] for x in range(self.dim)]
+                maxValIndex = tempCtab.index(max(tempCtab))
+                temporalTab = [x for x in self.matrix[i]]
+                self.matrix[i] = [x for x in self.matrix[maxValIndex]]
+                self.matrix[maxValIndex] = [x for x in temporalTab]
+        #
+        for i in range(self.dim):
+            self.vect[i] = self.matrix[i][self.dim]
+            self.matrix[i].pop(self.dim)
 
     def countLine(self, file):
         """
@@ -57,7 +74,7 @@ class gaussSeidel:
 
     def solution(self):
         cpt = 0
-        while self.test(self.initialVal) != True and cpt<100:
+        while self.test(self.initialVal) != True and cpt<50:
             cpt +=1
             for i in range(self.dim):
                 sum = 0

@@ -58,6 +58,6 @@ class gaussJordan:
 
         for i in range(self.dim):
             self.result.append(round(self.matrixT1[i][self.dim],2))
-        self.result.reverse()
+        #self.result.reverse()
         return self.result
 
