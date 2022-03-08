@@ -54,14 +54,14 @@ class choleski:
 
     def triangularize(self):
         self.matrixL[0][0] = pow(self.matrix[0][0], 0.5)
-        for i in range(1,self.dim,1):
+        for i in range(1, self.dim, 1):
             self.matrixL[i][0] = self.matrix[i][0]/self.matrixL[0][0]
-        for i in range(1,self.dim,1):
+        for i in range(1, self.dim, 1):
             for j in range(i, self.dim):
                 sum = 0
                 if i == j:
                     for k in range(j):
-                        sum += pow(self.matrixL[j][k],2)
+                        sum += pow(self.matrixL[j][k], 2)
                     self.matrixL[j][i] = pow(self.matrix[j][i] - sum, 0.5)
                 else:
                     for k in range(j):
@@ -77,9 +77,14 @@ class choleski:
         #uTM => sY
         sY = list()
         if self.isSymetric():
-            self.triangularize()
+            try:
+                self.triangularize()
+            except ZeroDivisionError:
+                return "CHOLESKI: La matrice est mal définie"
+            except ValueError:
+                return "CHOLESKI: La matrice est mal définie"
         else:
-            return "La Matrice n'est pas symetrique"
+            return "CHOLESKI: La Matrice n'est pas symetrique"
         sY.append(self.vect[0]/self.matrixL[0][0])
         for i in range(1, self.dim):
             s1 = 0

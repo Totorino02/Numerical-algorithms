@@ -57,11 +57,9 @@ class gauss:
                 for j in range(i+1, dim):
                     while matrix[i][i] == 0 :
                         # inversion if the begin of the pivot is null: L_i <-> L_cpt
-                        """tempCtab = [self.matrix[x][i] for x in range(dim)]
-                        maxValIndex = tempCtab.index(max(tempCtab))"""
                         tempCtab = matrix[i][i]
                         maxValIndex = i
-                        for cpt in range(dim):
+                        for cpt in range(i,dim):
                             if abs(matrix[cpt][i]) > tempCtab:
                                 maxValIndex = cpt
                         temporalTab = [x for x in self.matrix[i]]
