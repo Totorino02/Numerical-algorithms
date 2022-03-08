@@ -1,21 +1,24 @@
-from linearEq.directMethods.choleski import choleski
-from linearEq.directMethods.gauss import gauss
-from linearEq.directMethods.gaussJordan import gaussJordan
-from linearEq.directMethods.LU import LU
+from linearEq.directMethods.choleski import Choleski
+from linearEq.directMethods.gauss import Gauss
+from linearEq.directMethods.gaussJordan import GaussJordan
+from linearEq.directMethods.crout import Crout
+from linearEq.directMethods.Doulit import Doulit
 from linearEq.iterativeMethods.jacobi import jacobi
 from linearEq.iterativeMethods.gaussSeidel import gaussSeidel
 from scipy.linalg import lu
 import numpy as np
 ### Methods directs
-chski = choleski("matrix.txt")
-gauss = gauss("matrix.txt")
-gaussJ = gaussJordan("matrix.txt")
-Lu = LU("matrix.txt")
+chski = Choleski("matrix.txt")
+gauss = Gauss("matrix.txt")
+gaussJ = GaussJordan("matrix.txt")
+doulit = Doulit("matrix.txt")
+crout = Crout("matrix.txt")
 
-print(gauss.solution())
-print(gaussJ.solution())
-print(Lu.solution())
-print(chski.solution())
+print("Gauss ", gauss.solution())
+print("GaussJordan ", gaussJ.solution())
+print("Crout ", crout.solution())
+print("Doulit ", doulit.solution())
+print("Choleski", chski.solution())
 
 ### Methods iteratives
 jkb = jacobi("matrix.txt")

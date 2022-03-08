@@ -7,7 +7,7 @@
 import sys
 from os.path import dirname, join
 
-class Crout:
+class Doulit:
 
     def __init__(self, file):
         self.file = join(dirname(__file__), file)

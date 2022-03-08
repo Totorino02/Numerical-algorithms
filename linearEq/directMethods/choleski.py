@@ -8,7 +8,7 @@ import sys
 from math import pow
 from os.path import dirname, join
 
-class choleski:
+class Choleski:
 
     def __init__(self, file):
         self.file = file

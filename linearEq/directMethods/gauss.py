@@ -8,7 +8,7 @@
 import sys
 from os.path import dirname, join
 
-class gauss:
+class Gauss:
     """
         Numerical resolution of linear equations with the method of Gauss
     """

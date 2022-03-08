@@ -5,10 +5,10 @@
     Date: 03/02/2022
 """
 import sys
-from linearEq.directMethods.gauss import gauss
+from linearEq.directMethods.gauss import Gauss
 from os.path import dirname, join
 
-class gaussJordan:
+class GaussJordan:
     def __init__(self, file):
         self.file = file
         sys.stdin = open(join(dirname(__file__), self.file))
@@ -42,7 +42,7 @@ class gaussJordan:
 
     def solution(self):
         # upper triangular matrix from the gauss class
-        self.matrixT1 = gauss(self.file).triangularize()
+        self.matrixT1 = Gauss(self.file).triangularize()
 
         # modification of the matrix to the the diagonal values to 1
         for i in range(self.dim):
