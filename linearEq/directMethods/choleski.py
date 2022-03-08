@@ -70,11 +70,12 @@ class Choleski:
         for i in range(self.dim):
             for j in range(self.dim):
                 self.matrixU[i][j] = self.matrixL[j][i]
+
     def solution(self):
         """
             :return: solution
         """
-        #uTM => sY
+        # uTM => sY
         sY = list()
         if self.isSymetric():
             try:

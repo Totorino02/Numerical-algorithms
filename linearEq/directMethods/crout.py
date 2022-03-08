@@ -138,7 +138,7 @@ class Crout:
             try:
                 val = (sY[i] - s1) / self.matrixU[i][i]
             except ZeroDivisionError:
-                return "Veillez réesayer"
+                return "Veillez réessayer"
             s.append(val)
         s = [round(i, 2) for i in s]
         s.reverse()

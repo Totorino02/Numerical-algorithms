@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import sys
 from os.path import dirname, join
 
-class lagrange:
+class Lagrange:
 
     def __init__(self, file):
         self.file = file
@@ -19,24 +19,25 @@ class lagrange:
 
         if len(X) != len(Y):
             print("Vos tableaux ne sont pas de meme taille")
-        self.X = np.array(X)
-        self.Y = np.array(Y)
-        self.dim = len(X)
-        Xval = np.arange(-10,10,0.1)
-        Yval = list()
-        Y2 = list()
-        for i in X:
-            Y2.append(self.calc(i))
-        for i in Xval:
-            Yval.append(self.calc(i))
+        else:
+            self.X = np.array(X)
+            self.Y = np.array(Y)
+            self.dim = len(X)
+            Xval = np.arange(-10, 10, 0.1)
+            Yval = list()
+            Y2 = list()
+            for i in X:
+                Y2.append(self.calc(i))
+            for i in Xval:
+                Yval.append(self.calc(i))
 
-        plt.plot(Xval, Yval, label='courbe')
-        plt.scatter(X, Y2, c='coral', label='Points')
-        plt.title("Interpolation de Lagrange")
-        plt.xlabel("X")
-        plt.ylabel("Y")
-        plt.legend()
-        plt.show()
+            plt.plot(Xval, Yval, label='courbe')
+            plt.scatter(X, Y2, c='coral', label='Points')
+            plt.title("Interpolation de Lagrange")
+            plt.xlabel("X")
+            plt.ylabel("Y")
+            plt.legend()
+            plt.show()
 
     def calc(self, x):
         Px = 0

@@ -32,8 +32,11 @@ class jacobi:
         for i in range(self.dim):
             while self.matrix[i][i] == 0:
                 # inversion if the begin of the pivot is null: L_i <-> L_maxVal
-                tempCtab = [self.matrix[x][i] for x in range(self.dim)]
-                maxValIndex = tempCtab.index(max(tempCtab))
+                tempCtab = self.matrix[i][i]
+                maxValIndex = i
+                for cpt in range(i, self.dim):
+                    if abs(self.matrix[cpt][i]) > tempCtab:
+                        maxValIndex = cpt
                 temporalTab = [x for x in self.matrix[i]]
                 self.matrix[i] = [x for x in self.matrix[maxValIndex]]
                 self.matrix[maxValIndex] = [x for x in temporalTab]
@@ -62,27 +65,33 @@ class jacobi:
                 summ += self.matrix[i][j] * tab[j]
             result.append(summ - self.vect[i])
 
-        interm = [pow(i,2) for i in result]
-        #print(interm)
+        interm = [pow(i, 2) for i in result]
+        # print(interm)
         val1 = pow(sum(interm), 0.5)
-        #print(val1)
+        # print(val1)
         interm = [pow(i, 2) for i in self.vect]
         val2 = pow(sum(interm), 0.5)
-        if (val1/val2) <= self.e :
+        if (val1/val2) <= self.e:
             return True
         else: return False
 
     def solution(self):
         solution = [0 for i in range(self.dim)]
         cpt = 0
-        while self.test(self.initialVal) != True and cpt<200:
-            cpt +=1
-            for i in range(self.dim):
-                sum = 0
-                for j in range(self.dim):
-                    if j != i:
-                        sum += self.matrix[i][j]*self.initialVal[j]
-                Xi = (1/self.matrix[i][i])*(self.vect[i]-sum)
-                solution[i] = Xi
-            self.initialVal = [i for i in solution]
-        return  self.initialVal
+        try:
+            while self.test(self.initialVal) != True and cpt<200:
+                cpt +=1
+                for i in range(self.dim):
+                    sum = 0
+                    for j in range(self.dim):
+                        if j != i:
+                            sum += self.matrix[i][j]*self.initialVal[j]
+                    try:
+                        Xi = (1 / self.matrix[i][i]) * (self.vect[i] - sum)
+                    except ZeroDivisionError:
+                        return "Veuillez Réesayez Probleme d'optimisation systeme"
+                    solution[i] = Xi
+                self.initialVal = [i for i in solution]
+        except OverflowError:
+            return "JACOBI :=> Depassement de capacité réessayer avec d'autes valeurs initiales"
+        return self.initialVal

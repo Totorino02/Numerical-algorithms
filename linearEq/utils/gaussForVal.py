@@ -31,10 +31,14 @@ class gauss:
                     cpt = i
                     while matrix[i][i] == 0 and cpt < dim :
                         # inversion if the begin of the pivot is null: L_i <-> L_cpt
-                        temporalTab = [x for x in matrix[i]]
-                        matrix[i] = [x for x in matrix[cpt+1]]
-                        matrix[cpt + 1] = [x for x in temporalTab]
-                        cpt += 1
+                        tempCtab = matrix[i][i]
+                        maxValIndex = i
+                        for cpt in range(i, dim):
+                            if abs(matrix[cpt][i]) > tempCtab:
+                                maxValIndex = cpt
+                        temporalTab = [x for x in self.matrix[i]]
+                        self.matrix[i] = [x for x in self.matrix[maxValIndex]]
+                        self.matrix[maxValIndex] = [x for x in temporalTab]
                     if matrix[j][i] != 0:
                         fMultiplicatif = -(matrix[i][i]/matrix[j][i])
                         matrix[j] = [(fMultiplicatif * x) for x in matrix[j]]
