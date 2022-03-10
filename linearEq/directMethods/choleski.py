@@ -22,7 +22,7 @@ class Choleski:
         try:
             for _ in range(self.dim):
                 line = sys.stdin.readline().split("|")
-                self.matrix.append([(float)(i) for i in line[0].split()])
+                self.matrix.append([float(i) for i in line[0].split()])
                 self.matrixU.append([0 for i in range(self.dim)])
                 self.matrixL.append([0 for i in range(self.dim)])
                 self.vect.append(float(line[1]))

@@ -120,13 +120,16 @@ class Doulit:
         self.triangularize()
         sY = list()
         sY.append(self.vect[0]/self.matrixL[0][0])
-        for i in range(1, self.len):
-            s1 = 0
-            for k in range(i):
-                temp = self.matrixL[i][k]*sY[k]
-                s1 += temp
-            val = (self.vect[i] - s1)/self.matrixL[i][i]
-            sY.append(val)
+        try:
+            for i in range(1, self.len):
+                s1 = 0
+                for k in range(i):
+                    temp = self.matrixL[i][k]*sY[k]
+                    s1 += temp
+                val = (self.vect[i] - s1)/self.matrixL[i][i]
+                sY.append(val)
+        except ZeroDivisionError:
+            return "Division par zero"
         # lTM => s
         s = list()
         s.append(sY[self.len-1])

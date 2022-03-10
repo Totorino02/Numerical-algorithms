@@ -79,7 +79,7 @@ class jacobi:
         solution = [0 for i in range(self.dim)]
         cpt = 0
         try:
-            while self.test(self.initialVal) != True and cpt<200:
+            while not self.test(self.initialVal):
                 cpt +=1
                 for i in range(self.dim):
                     sum = 0
@@ -94,4 +94,6 @@ class jacobi:
                 self.initialVal = [i for i in solution]
         except OverflowError:
             return "JACOBI :=> Depassement de capacité réessayer avec d'autes valeurs initiales"
+        except IndexError:
+            return "Erreur lors de la saisie"
         return self.initialVal

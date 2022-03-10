@@ -21,7 +21,7 @@ class gaussSeidel:
         for _ in range(self.dim):
             """Read data from the file"""
             line = sys.stdin.readline().split("|")
-            self.matrix.append([(float)(i) for i in line[0].split()])
+            self.matrix.append([float(i) for i in line[0].split()])
             self.vect.append(float(line[1]))
             self.initialVal.append(float(line[2]))
         #
@@ -78,7 +78,7 @@ class gaussSeidel:
     def solution(self):
         cpt = 0
         try:
-            while self.test(self.initialVal) != True and cpt<50:
+            while not self.test(self.initialVal):
                 cpt +=1
                 for i in range(self.dim):
                     sum = 0

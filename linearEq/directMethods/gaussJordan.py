@@ -45,9 +45,12 @@ class GaussJordan:
         self.matrixT1 = Gauss(self.file).triangularize()
 
         # modification of the matrix to the the diagonal values to 1
-        for i in range(self.dim):
-            coef = self.matrixT1[i][i]
-            self.matrixT1[i] = [(1/coef)*i for i in self.matrixT1[i]]
+        try:
+            for i in range(self.dim):
+                coef = self.matrixT1[i][i]
+                self.matrixT1[i] = [(1/coef)*i for i in self.matrixT1[i]]
+        except ZeroDivisionError:
+            return "Division par zéro"
 
         # last step output diagonal matrix of 1
         for i in range(self.dim-1, -1,-1):

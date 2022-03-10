@@ -17,24 +17,25 @@ gauss = Gauss("matrix.txt")
 gaussJ = GaussJordan("matrix.txt")
 doulit = Doulit("matrix.txt")
 crout = Crout("matrix.txt")
+
 """
 print("Gauss ", gauss.solution())
 print("GaussJordan ", gaussJ.solution())
-print("Crout ", crout.solution())
 print("Doulit ", doulit.solution())
 print("Choleski", chski.solution())
-
 """
+
 
 # Methods iteratives
 jkb = jacobi("matrix.txt")
 gs = gaussSeidel("matrix.txt")
+
 """
-print(jkb.solution())
-print(gs.solution())
+print("Jacobi ", jkb.solution())
+print("Gauss-seidel ", gs.solution())
 """
 
 newton = Newton("interpolation.txt")
 lagrange = Lagrange("interpolation.txt")
-moindreCarre = MoindreCarre("interpolation.txt",5)
+moindreCarre = MoindreCarre("interpolation.txt", 5)
 
