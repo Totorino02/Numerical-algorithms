@@ -28,6 +28,7 @@ class Polynom:
         elif diffLength < 0:
             minArray = [x for x in P1]
             maxArray = [x for x in P2]
+            maxArray.index(2)
             for i in range(abs(diffLength)):
                 minArray.append(0)
         minArray.append(0)
