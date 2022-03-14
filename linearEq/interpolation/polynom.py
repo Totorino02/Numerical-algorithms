@@ -64,6 +64,8 @@ class Polynom:
 
     def build(self, tab):
         str = ""
+        # print(tab)
+        # tab = [round(x, 10) for x in tab]
         length = len(tab)
         for i in range(length):
             if i == 0:

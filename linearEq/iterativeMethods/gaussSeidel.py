@@ -16,7 +16,7 @@ class gaussSeidel:
         self.dim = self.countLine(self.file)
         self.matrix = list()
         self.vect = list()
-        self.e = 0.00001
+        self.e = 0.001
         self.initialVal = list()
         for _ in range(self.dim):
             """Read data from the file"""
@@ -71,14 +71,14 @@ class gaussSeidel:
         # print(val1)
         interm = [pow(i, 2) for i in self.vect]
         val2 = pow(sum(interm), 0.5)
-        if (val1/val2) <= self.e :
+        if (val1/val2) <= self.e:
             return True
         else: return False
 
     def solution(self):
         cpt = 0
         try:
-            while not self.test(self.initialVal):
+            while not self.test(self.initialVal) and cpt < 250:
                 cpt +=1
                 for i in range(self.dim):
                     sum = 0

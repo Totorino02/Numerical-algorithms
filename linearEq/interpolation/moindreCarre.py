@@ -10,6 +10,7 @@ import sys
 from math import pow
 from linearEq.utils.gaussForVal import gauss
 from os.path import dirname, join
+from linearEq.interpolation.polynom import Polynom
 
 
 class MoindreCarre:
@@ -43,13 +44,11 @@ class MoindreCarre:
             # polynom coefs
             try:
                 self.Coefs = gauss(matrix, vect).showResult()
-                print(self.Coefs)
+                self.poly = Polynom().build(self.Coefs)
                 # print the graph
                 Xval = np.arange(-10, 10, 0.1)
-                Yval = list()
-                for val in Xval:
-                    Yval.append(self.calc(val))
-                plt.plot(Xval, Yval, label='Courbe obtenue', c='black')
+                plt.plot(Xval, self.givenFunc(Xval, "X**2 + 1"), label='Courbe', c='black')
+                plt.plot(Xval, self.calc(Xval), label='Courbe obtenue', c='red')
                 plt.scatter(self.X, self.Y, c='red', label='Points Données')
                 plt.title("Interpolation de Moindre carré")
                 plt.xlabel("X --->")
@@ -61,8 +60,8 @@ class MoindreCarre:
             except TypeError:
                 print("None Type n'est pas un type primitif")
 
-    def calc(self, x):
-        val = 0
-        for i in range(len(self.Coefs)):
-            val = val + (self.Coefs[i] * pow(x, i))
-        return val
+    def calc(self, X):
+        return eval(self.poly)
+
+    def givenFunc(self, X, poly):
+        return eval(poly)

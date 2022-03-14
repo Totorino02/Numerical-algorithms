@@ -21,7 +21,7 @@ class jacobi:
         for _ in range(self.dim):
             """Read data from the file"""
             line = sys.stdin.readline().split("|")
-            self.matrix.append([(float)(i) for i in line[0].split()])
+            self.matrix.append([float(i) for i in line[0].split()])
             self.vect.append(float(line[1]))
             self.initialVal.append(float(line[2]))
         #
@@ -79,7 +79,7 @@ class jacobi:
         solution = [0 for i in range(self.dim)]
         cpt = 0
         try:
-            while not self.test(self.initialVal):
+            while not self.test(self.initialVal) and cpt < 200:
                 cpt +=1
                 for i in range(self.dim):
                     sum = 0

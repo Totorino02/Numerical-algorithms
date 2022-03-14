@@ -8,6 +8,7 @@ from linearEq.iterativeMethods.gaussSeidel import gaussSeidel
 from linearEq.interpolation.newton import Newton
 from linearEq.interpolation.lagrange import Lagrange
 from linearEq.interpolation.moindreCarre import MoindreCarre
+from linearEq.interpolation.interpolation import Interpolation
 from scipy.linalg import lu
 import numpy as np
 
@@ -38,4 +39,5 @@ print("Gauss-seidel ", gs.solution())
 newton = Newton("interpolation.txt")
 lagrange = Lagrange("interpolation.txt")
 moindreCarre = MoindreCarre("interpolation.txt", 5)
+intterpolation = Interpolation("interpolation.txt")
 

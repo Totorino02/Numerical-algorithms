@@ -27,20 +27,17 @@ class Newton:
             matrix = np.zeros((self.dim, self.dim))
             for i in range(self.dim):
                 for j in range(i+1):
-                    matrix[i][j] = self.calc(j,self.X[i])
+                    matrix[i][j] = self.calc(j, self.X[i])
+
             Coefs = gauss(matrix, self.Y).showResult()
             self.poly = Polynom().build(Coefs)
+
             # polynomes values
             Xval = np.arange(-10, 10, 0.1)
-            Yval = list()
             try:
-                for val in Xval:
-                    Px = 0
-                    for j in range(self.dim):
-                        Px = Px + Coefs[j] * self.calc(j, val)
-                    Yval.append(Px)
-                plt.plot(Xval, Yval, label='Courbe obtenue', c='red')
+                plt.plot(Xval, self.calcNewton(Xval), label='Courbe obtenue')
                 plt.scatter(self.X, self.Y, c='blue', label='Points Données')
+                plt.plot(Xval, self.givenFunc(Xval, "X**2 + 1"), label='Courbe', c='red')
                 plt.title("Interpolation de Newton\nPx = {}".format(self.poly))
                 plt.xlabel("X --->")
                 plt.ylabel("Y --->")
@@ -54,3 +51,9 @@ class Newton:
         for i in range(dim):
             val = val * (x - self.X[i])
         return val
+
+    def calcNewton(self, X):
+        return eval(self.poly)
+
+    def givenFunc(self, X, poly):
+        return eval(poly)
