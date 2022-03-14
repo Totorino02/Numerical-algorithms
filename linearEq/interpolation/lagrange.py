@@ -27,11 +27,11 @@ class Lagrange:
             self.X = [k for k in X]
             self.Y = [k for k in Y]
             self.dim = len(X)
-            Xval = np.arange(-20, 30, 0.5)
+            Xval = np.arange(-30, 30, 0.5)
             Yval = list()
             Yval2 = list()
             Y2 = list()
-
+            self.coefs = self.func()
             for i in X:
                 Y2.append(self.calc(i))
             for i in Xval:
@@ -39,7 +39,9 @@ class Lagrange:
                 Yval2.append(self.givenFunc(i))
 
             plt.plot(Xval, Yval, label='Courbe obtenue')
-            plt.plot(Xval, Yval2, label='Courbe', c='red')
+            # plt.plot(Xval, Yval2, label='Courbe', c='red')
+            # plt.plot(Xval, np.zeros(120), label='axe des abscisses', c='black')
+            # plt.plot(np.zeros(120), Yval, label='axe des ordonnées', c='black')
             plt.scatter(X, Y2, c='coral', label='Points')
             plt.title("Interpolation de Lagrange\nPx = {}".format(self.poly))
             plt.xlabel("X")
@@ -54,14 +56,14 @@ class Lagrange:
             for j in range(self.dim):
                 if i != j:
                     Dnmteur = self.X[i] - self.X[j]
-                    fi = Polynom().mult(P1=fi, P2=[self.X[j]/Dnmteur, 1/Dnmteur])
+                    fi = Polynom().mult(P1=fi, P2=[self.X[j] / Dnmteur, 1 / Dnmteur])
                     # fi * (x - self.X[j]) / (self.X[i] - self.X[j])
             Px = Polynom().add(Px, Polynom().mult([self.Y[i]], fi))
+            # print(Polynom().build(Px))
         return Px
 
-    def calc(self, X):
-        self.coefs = self.func() # [round(x, 2) for x in self.func()]
-        self.coefs.reverse()
+    def calc(self, X):  # [round(x, 2) for x in self.func()]
+        #self.coefs.reverse()
         self.poly = Polynom().build(self.coefs)
         return eval(self.poly)
 

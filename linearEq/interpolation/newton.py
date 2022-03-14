@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import sys
 from linearEq.utils.gaussForVal import gauss
 from os.path import dirname, join
+from linearEq.interpolation.polynom import Polynom
 
 class Newton:
 
@@ -28,7 +29,7 @@ class Newton:
                 for j in range(i+1):
                     matrix[i][j] = self.calc(j,self.X[i])
             Coefs = gauss(matrix, self.Y).showResult()
-
+            self.poly = Polynom().build(Coefs)
             # polynomes values
             Xval = np.arange(-10, 10, 0.1)
             Yval = list()
@@ -40,7 +41,7 @@ class Newton:
                     Yval.append(Px)
                 plt.plot(Xval, Yval, label='Courbe obtenue', c='red')
                 plt.scatter(self.X, self.Y, c='blue', label='Points Données')
-                plt.title("Interpolation de Newton")
+                plt.title("Interpolation de Newton\nPx = {}".format(self.poly))
                 plt.xlabel("X --->")
                 plt.ylabel("Y --->")
                 plt.legend()

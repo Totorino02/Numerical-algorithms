@@ -8,8 +8,6 @@
 
 class Polynom:
 
-    # def __init__(self):
-
     def mult(self, P1, P2):
         """ Multiplication between P1 and P2 """
         maxArray = [x for x in P1]
@@ -41,7 +39,6 @@ class Polynom:
                 val = maxArray[j] * minArray[i - j]
                 cpt += val
             result.append(cpt)
-        result.reverse()
         return result
 
     def add(self, P1, P2, neg=False):
@@ -90,33 +87,10 @@ class Polynom:
         """Euclidian division between P1 and P2"""
 
 
+p1 = Polynom().mult([1], [0 / -2, 1 / -2])
+p2 = Polynom().mult(p1, [-1 / -3, 1 / -3])
+p3 = Polynom().mult(p2, [-2 / -4, 1 / -4])
 
-p0 = Polynom().mult([-1, 1], [1])
-p1 = Polynom().mult([-1, 1], [-1, 1])
-p2 = Polynom().mult(p1, [-1, 1])
-p3 = Polynom().mult(p2, [-1, 1])
-p4 = Polynom().mult(p3, [-1, 1])
-p5 = Polynom().mult(p4, [-1, 1])
-p6 = Polynom().mult(p5, [-1, 1])
-p7 = Polynom().mult(p6, [-1, 1])
-p8 = Polynom().mult(p7, [-1, 1])
-p9 = Polynom().mult(p8, [-1, 1])
-p10 = Polynom().mult(p9, [-1, 1])
-p11 = Polynom().mult(p10, [-1, 1])
-print(p0)
-print(p1)
-print(p2)
-print(p3)
-print(p4)
-print(p5)
-print(p6)
-print(p7)
-print(p8)
-print(p9)
-print(p10)
-print(p11)
-print(Polynom().build(p11))
-
-
-# print(p1)
-# print(p2)
+"""print(p3)
+print(Polynom().build(p3))
+"""
