@@ -16,30 +16,36 @@ class Lagrange:
     def __init__(self, file):
         self.poly = None
         self.file = file
-        sys.stdin = open(join(dirname(__file__), self.file))
-        X = [float(i) for i in sys.stdin.readline().split()]
-        Y = [float(i) for i in sys.stdin.readline().split()]
+        try:
+            sys.stdin = open(join(dirname(__file__), self.file))
+            X = [float(i) for i in sys.stdin.readline().split()]
+            Y = [float(i) for i in sys.stdin.readline().split()]
 
-        if len(X) != len(Y):
-            print("Vos tableaux ne sont pas de meme taille")
-        else:
-            self.X = [k for k in X]
-            self.Y = [k for k in Y]
-            self.dim = len(X)
-            Xval = np.arange(-30, 30, 0.5)
-            Y2 = list()
-            self.poly = self.funcLagrange()
-            for i in X:
-                Y2.append(self.calcLagrange(i))
+            if len(X) != len(Y):
+                print("Vos tableaux ne sont pas de meme taille")
+            else:
+                self.X = [k for k in X]
+                self.Y = [k for k in Y]
+                self.dim = len(X)
+                Xval = np.arange(-30, 30, 0.5)
+                Y2 = list()
+                self.poly = self.funcLagrange()
+                for i in X:
+                    Y2.append(self.calcLagrange(i))
 
-            plt.plot(Xval, self.calcLagrange(Xval), label='Courbe obtenue')
-            plt.plot(np.arange(-5, 5, 0.1), self.givenFunc(np.arange(-5, 5, 0.1), "X**2 + 1"), label='Courbe',c='black')
-            plt.scatter(X, Y2, c='coral', label='Points')
-            plt.title("Interpolation de Lagrange\nPx = {}".format(self.poly))
-            plt.xlabel("X")
-            plt.ylabel("Y")
-            plt.legend()
-            plt.show()
+                plt.plot(Xval, self.calcLagrange(Xval), label='Courbe obtenue')
+                plt.plot(np.arange(-5, 5, 0.1), self.givenFunc(np.arange(-5, 5, 0.1), "X**2 + 1"), label='Courbe',
+                         c='black')
+                plt.scatter(X, Y2, c='coral', label='Points')
+                plt.title("Interpolation de Lagrange\nPx = {}".format(self.poly))
+                plt.xlabel("X")
+                plt.ylabel("Y")
+                plt.legend()
+                plt.show()
+        except TypeError:
+            print("Erreur lors du calcul veuillez réessayer")
+        except ValueError:
+            print("Erreur lors de la saisie")
 
     def funcLagrange(self):
         Px = [0]

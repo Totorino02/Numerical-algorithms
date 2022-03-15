@@ -17,7 +17,7 @@ class Gauss:
         self.dim = self.countLine(self.file)
         self.matrixV(self.file)
 
-    def matrixV(self,file):
+    def matrixV(self, file):
         try:
             self.vect= list()
             self.matrix = list()
@@ -38,7 +38,7 @@ class Gauss:
         except IndexError:
             print("Index Error :=> not square matrix !")
 
-    def countLine(self,file):
+    def countLine(self, file):
         """
             :param file:
             :return: nbOfLine

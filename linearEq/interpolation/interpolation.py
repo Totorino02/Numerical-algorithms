@@ -19,25 +19,27 @@ class Interpolation:
         self.polyN = None
         self.polyL = None
         self.polyM = None
-        sys.stdin = open(join(dirname(__file__), self.file))
-        self.X = [float(i) for i in sys.stdin.readline().split()]
-        self.Y = [float(i) for i in sys.stdin.readline().split()]
+        try:
+            sys.stdin = open(join(dirname(__file__), self.file))
+            self.X = [float(i) for i in sys.stdin.readline().split()]
+            self.Y = [float(i) for i in sys.stdin.readline().split()]
 
-        if len(self.X) != len(self.Y):
-            print("Vos tableaux ne sont pas de meme taille")
-        else:
-            self.X = [k for k in self.X]
-            self.Y = [k for k in self.Y]
-            self.dim = len(self.X)
-            Xval = np.arange(-15, 15, 0.5)
+            if len(self.X) != len(self.Y):
+                print("Vos tableaux ne sont pas de meme taille")
+            else:
+                self.X = [k for k in self.X]
+                self.Y = [k for k in self.Y]
+                self.dim = len(self.X)
+                Xval = np.arange(-15, 15, 0.5)
 
-            try:
                 self.polyN = self.newton()
                 self.polyL = self.lagrange()
-                self.polyM = self.moindreCarre(3)
-                print(self.polyN)
-                print(self.polyL)
-                print(self.polyM)
+                self.polyM = self.moindreCarre(2)
+                """
+                    print(self.polyN)
+                    print(self.polyL)
+                    print(self.polyM)
+                """
                 plt.plot(np.arange(-20, 20, 0.1), self.calcLagrange(np.arange(-20, 20, 0.1)), label='Courbe lagrange', c='blue')
                 plt.plot(Xval, self.calcNewton(Xval), label='Courbe newton', c='green')
                 plt.plot(Xval, self.calcMoindreCarre(Xval), label='Courbe moindreCarre', c='red')
@@ -51,11 +53,10 @@ class Interpolation:
                 # plt.xticks(np.arange(-30, 30, 2))
                 plt.legend()
                 plt.show()
-
-            except TypeError:
-                print("Erreur lors du calcul veuillez réessayer")
-            except ValueError:
-                print("Valeurs mal définies")
+        except TypeError:
+            print("Erreur lors du calcul veuillez réessayer")
+        except ValueError:
+            print("Valeurs mal définies")
 
     """ ===================================================================== """
     def newton(self):

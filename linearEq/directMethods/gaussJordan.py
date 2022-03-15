@@ -20,7 +20,7 @@ class GaussJordan:
         try:
             for _ in range(self.dim):
                 line = sys.stdin.readline().split("|")
-                self.matrix.append([(float)(i) for i in line[0].split()])
+                self.matrix.append([float(i) for i in line[0].split()])
                 self.vect.append(float(line[1]))
                 # add of the vector to the matrix
             for i in range(self.dim):
