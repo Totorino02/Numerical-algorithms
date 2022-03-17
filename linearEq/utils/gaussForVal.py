@@ -10,7 +10,7 @@ class gauss:
     """
         Numerical resolution of linear equations with the method of Gauss
     """
-    def __init__(self,matrix, vect):
+    def __init__(self, matrix, vect):
         self.dim = len(vect)
         self.vect = list()
         self.matrix = list()

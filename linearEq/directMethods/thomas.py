@@ -7,6 +7,7 @@
 from os.path import join, dirname
 import sys
 import numpy as np
+from linearEq.utils.gaussForVal import gauss
 
 class Thomas:
 
@@ -24,6 +25,9 @@ class Thomas:
             print("Votre matrix n'est pas tridiagonal")
             return
         matL, matU = self.factorization(self.matrix, self.dim)
+        # interm = gauss(matL, self.vect).showResult()
+        # final = gauss(matU, interm).showResult()
+        # print(final)
 
         sol = self.solution(matL, matU, self.vect, self.dim)
         print(sol)
@@ -60,6 +64,9 @@ class Thomas:
             if i > 0:
                 matL[i][i-1] = matrix[i][i-1] / matU[i-1][i-1]
                 matU[i][i] = matrix[i][i] - matL[i][i-1] * matU[i-1][i]
+        """print(matL)
+        print()
+        print(matU)"""
         return matL, matU
 
     def solution(self, matL, matU, vect, dim):
@@ -67,19 +74,19 @@ class Thomas:
             :return: solution
         """
         sY = list()
-        sY.append(vect[0]/matL[0][0])
+        sY.append(vect[0])
         for i in range(1, dim):
-            s1 = vect[i] - sY[i - 1] * matL[i][i-1]
+            s1 = vect[i] - sY[i-1] * matL[i][i-1]
             sY.append(s1)
         # lTM => s
         s = list()
         s.append(sY[dim-1]/matU[dim-1][dim-1])
         for i in range(dim-2, -1, -1):
             try:
-                val = (sY[i] - matU[i][i+1] * s[len(s) - 1]) / matU[i][i]
+                val = (sY[i] - matU[i][i+1] * s[len(s)-1]) / matU[i][i]
+                s.append(val)
             except ZeroDivisionError:
                 return "Veillez réessayer"
-            s.append(val)
         s = [round(i, 2) for i in s]
         s.reverse()
         return s
