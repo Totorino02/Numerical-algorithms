@@ -6,12 +6,8 @@ from linearEq.directMethods.Doulit import Doulit
 from linearEq.directMethods.thomas import Thomas
 from linearEq.iterativeMethods.jacobi import jacobi
 from linearEq.iterativeMethods.gaussSeidel import gaussSeidel
-from linearEq.interpolation.newton import Newton
-from linearEq.interpolation.lagrange import Lagrange
-from linearEq.interpolation.moindreCarre import MoindreCarre
-from linearEq.interpolation.interpolation import Interpolation
-from scipy.linalg import lu
-import numpy as np
+from interpolation.interpolation import Interpolation
+# from scipy.linalg import lu
 
 # Methods directs
 chski = Choleski("matrix.txt")
@@ -33,6 +29,8 @@ print("Choleski", chski.solution())
 jkb = jacobi("matrix.txt")
 gs = gaussSeidel("matrix.txt")
 
+# interpolation
+interpolation = Interpolation("interpolation.txt")
 """
 print("Jacobi ", jkb.solution())
 print("Gauss-seidel ", gs.solution())

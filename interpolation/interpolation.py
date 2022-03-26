@@ -8,7 +8,7 @@ import sys
 from os.path import dirname, join
 import matplotlib.pyplot as plt
 import numpy as np
-from linearEq.interpolation.polynom import Polynom
+from interpolation.polynom import Polynom
 from linearEq.utils.gaussForVal import gauss
 
 

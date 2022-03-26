@@ -10,7 +10,7 @@ import sys
 from math import pow
 from linearEq.utils.gaussForVal import gauss
 from os.path import dirname, join
-from linearEq.interpolation.polynom import Polynom
+from interpolation.polynom import Polynom
 
 
 class MoindreCarre:

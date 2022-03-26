@@ -6,7 +6,7 @@
 """
 import numpy as np
 import matplotlib.pyplot as plt
-from linearEq.interpolation.polynom import Polynom
+from interpolation.polynom import Polynom
 import sys
 from os.path import dirname, join
 
