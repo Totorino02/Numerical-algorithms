@@ -8,6 +8,7 @@ import sys
 from math import pow
 from os.path import dirname, join
 
+
 class Choleski:
 
     def __init__(self, file):
@@ -55,7 +56,7 @@ class Choleski:
     def triangularize(self):
         self.matrixL[0][0] = pow(self.matrix[0][0], 0.5)
         for i in range(1, self.dim, 1):
-            self.matrixL[i][0] = self.matrix[i][0]/self.matrixL[0][0]
+            self.matrixL[i][0] = self.matrix[i][0] / self.matrixL[0][0]
         for i in range(1, self.dim, 1):
             for j in range(i, self.dim):
                 sum = 0
@@ -65,8 +66,8 @@ class Choleski:
                     self.matrixL[j][i] = pow(self.matrix[j][i] - sum, 0.5)
                 else:
                     for k in range(j):
-                        sum += self.matrixL[j][k]*self.matrixL[k][i]
-                    self.matrixL[j][i] = (self.matrix[j][i] - sum)/self.matrixL[i][i]
+                        sum += self.matrixL[j][k] * self.matrixL[k][i]
+                    self.matrixL[j][i] = (self.matrix[j][i] - sum) / self.matrixL[i][i]
         for i in range(self.dim):
             for j in range(self.dim):
                 self.matrixU[i][j] = self.matrixL[j][i]
@@ -86,25 +87,25 @@ class Choleski:
                 return "CHOLESKI: La matrice est mal définie"
         else:
             return "CHOLESKI: La Matrice n'est pas symetrique"
-        sY.append(self.vect[0]/self.matrixL[0][0])
+        sY.append(self.vect[0] / self.matrixL[0][0])
         for i in range(1, self.dim):
             s1 = 0
             for k in range(i):
-                temp = self.matrixL[i][k]*sY[k]
+                temp = self.matrixL[i][k] * sY[k]
                 s1 += temp
-            val = (self.vect[i] - s1)/self.matrixL[i][i]
+            val = (self.vect[i] - s1) / self.matrixL[i][i]
             sY.append(val)
-        #lTM => s
+        # lTM => s
         s = list()
-        s.append(sY[self.dim-1]/self.matrixU[self.dim-1][self.dim-1])
-        for i in range(self.dim-2, -1, -1):
+        s.append(sY[self.dim - 1] / self.matrixU[self.dim - 1][self.dim - 1])
+        for i in range(self.dim - 2, -1, -1):
             s1 = 0
-            for k in range(self.dim-1,i,-1):
-                temp = self.matrixU[i][k] * s[self.dim-k-1]
+            for k in range(self.dim - 1, i, -1):
+                temp = self.matrixU[i][k] * s[self.dim - k - 1]
                 s1 += temp
             val = (sY[i] - s1) / self.matrixU[i][i]
             s.append(val)
-        s = [round(i,2) for i in s]
+        s = [round(i, 2) for i in s]
         s.reverse()
         return s
 
@@ -114,7 +115,7 @@ class Choleski:
         """
         for _ in range(self.dim):
             for i in range(self.dim):
-                print('{:7.2f}'.format(self.matrixL[_][i]), end="") # the 7.2f is arbitrary
+                print('{:7.2f}'.format(self.matrixL[_][i]), end="")  # the 7.2f is arbitrary
             print("\n")
 
     def showMatrixU(self):
@@ -123,8 +124,9 @@ class Choleski:
         """
         for _ in range(self.dim):
             for i in range(self.dim):
-                print('{:7.2f}'.format(self.matrixU[_][i]), end="") # the 7.2f is arbitrary
+                print('{:7.2f}'.format(self.matrixU[_][i]), end="")  # the 7.2f is arbitrary
             print("\n")
+
 
 """
     problems : 
