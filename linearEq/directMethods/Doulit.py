@@ -161,3 +161,5 @@ class Doulit:
             return "Erreur lors de l'indexation, veuillez resaisir les données"
         except EOFError:
             return "Eof error"
+        except ValueError:
+            return "Erreur lors de la saisie"

@@ -15,12 +15,16 @@ class Lagrange:
 
     def __init__(self, file):
         self.poly = None
-        self.file = file
-        try:
-            sys.stdin = open(join(dirname(__file__), self.file))
-            X = [float(i) for i in sys.stdin.readline().split()]
-            Y = [float(i) for i in sys.stdin.readline().split()]
+        self.file = join(dirname(__file__), file)
 
+    def getValues(self):
+        sys.stdin = open(self.file)
+        X = [float(i) for i in sys.stdin.readline().split()]
+        Y = [float(i) for i in sys.stdin.readline().split()]
+        return X, Y
+
+    def showC(self, X, Y):
+        try:
             if len(X) != len(Y):
                 print("Vos tableaux ne sont pas de meme taille")
             else:
@@ -29,7 +33,7 @@ class Lagrange:
                 self.dim = len(X)
                 Xval = np.arange(-30, 30, 0.5)
                 Y2 = list()
-                self.poly = self.funcLagrange()
+                self.poly = self.funcLagrange(self.X, self.Y, self.dim)
                 for i in X:
                     Y2.append(self.calcLagrange(i))
 
@@ -47,16 +51,16 @@ class Lagrange:
         except ValueError:
             print("Erreur lors de la saisie")
 
-    def funcLagrange(self):
+    def funcLagrange(self, X, Y, dim):
         Px = [0]
-        for i in range(self.dim):
+        for i in range(dim):
             fi = [1]
-            for j in range(self.dim):
+            for j in range(dim):
                 if i != j:
-                    Dnmteur = self.X[i] - self.X[j]
-                    fi = Polynom().mult(P1=fi, P2=[self.X[j] / Dnmteur, 1 / Dnmteur])
+                    Dnmteur = X[i] - X[j]
+                    fi = Polynom().mult(P1=fi, P2=[X[j] / Dnmteur, 1 / Dnmteur])
                     # fi * (x - self.X[j]) / (self.X[i] - self.X[j])
-            Px = Polynom().add(Px, Polynom().mult([self.Y[i]], fi))
+            Px = Polynom().add(Px, Polynom().mult([Y[i]], fi))
             # print(Polynom().build(Px))
         return Polynom().build(Px)
 

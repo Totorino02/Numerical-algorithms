@@ -80,3 +80,5 @@ class GaussJordan:
             return "Erreur lors de l'indexation"
         except EOFError:
             return "Eof error"
+        except ValueError:
+            return "Erreur lors de la saisie"

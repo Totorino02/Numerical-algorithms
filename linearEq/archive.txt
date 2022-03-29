@@ -26,3 +26,14 @@
         """for i in range(self.len):
             self.vect[i] = self.matrix[i][self.len]
             self.matrix[i].pop(self.len)"""
+
+
+
+        except TypeError:
+            print("Type Error :=> incorrect input")
+        except RuntimeError:
+            print("Runtime Error :=> Run time error please try aigain")
+        except ValueError:
+            print("Value Error :=> you enter innapropriate value")
+        except IndexError:
+            print("Index Error :=> not square matrix !")

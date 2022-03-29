@@ -22,25 +22,16 @@ class Gauss:
         self.dim = self.countLine(self.file)
 
     def getData(self, file):
-        try:
-            self.vect = list()
-            self.matrix = list()
-            sys.stdin = open(file)
-            for _ in range(self.dim):
-                line = sys.stdin.readline().split("|")
-                self.matrix.append([float(i) for i in line[0].split()])
-                self.vect.append(float(line[1]))
-            # add of the vector
-            for i in range(self.dim):
-                self.matrix[i].append(self.vect[i])
-        except TypeError:
-            print("Type Error :=> incorrect input")
-        except RuntimeError:
-            print("Runtime Error :=> Run time error please try aigain")
-        except ValueError:
-            print("Value Error :=> you enter innapropriate value")
-        except IndexError:
-            print("Index Error :=> not square matrix !")
+        self.vect = list()
+        self.matrix = list()
+        sys.stdin = open(file)
+        for _ in range(self.dim):
+            line = sys.stdin.readline().split("|")
+            self.matrix.append([float(i) for i in line[0].split()])
+            self.vect.append(float(line[1]))
+        # add of the vector
+        for i in range(self.dim):
+            self.matrix[i].append(self.vect[i])
 
     def countLine(self, file):
         """
@@ -123,6 +114,8 @@ class Gauss:
             return "Erreur lors de l'indexation"
         except EOFError:
             return "Eof error"
+        except ValueError:
+            return "Erreur lors de la saisie"
 
     def showTM(self):
         for _ in range(self.dim):
