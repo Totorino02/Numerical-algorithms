@@ -7,48 +7,46 @@
 import math
 from math import fabs, sqrt, pow
 
+
 class Equation:
 
     def __init__(self):
         self.isExist = True
-        self.values()
+        self._getValues()
 
-    def values(self):
+    def _getValues(self):
         try:
-            error = False
-            while not error:
-                try:
-                    self.inf = float(input("Borne inf. : "))
-                    self.sup = float(input("Borne sup. : "))
-                    self.Dr = float(input("Valeur de l'erreur absolue : "))
-                    self.Xe = float(input("Xo : "))
-                    self.nMax = 10000
-                    error = True
-                    if self.inf > self.sup:
-                        error = False
-                except ValueError:
-                    error = False
-            self.bissection()
-            self.secante()
-            self.newton()
-            self.pntsFixes()
+            self.inf = float(input("Borne inf. : "))
+            self.sup = float(input("Borne sup. : "))
+            if self.inf > self.sup:
+                print("\nvotre intervalle n'est pas valide")
+                self._getValues()
+            self.Dr = float(input("Valeur de l'erreur absolue : "))
+            self.Xe = float(input("Xo : "))
+            self.nMax = 10000
         except ValueError:
-            print("\nEntrées invalides")
+            print("Données incorrecte")
+            self._getValues()
+
+        self.bissection()
+        self.secante()
+        self.newton()
+        self.pntsFixes()
 
     def calc(self, x):
-        y = (pow(x, 2) - 4)/(x - 1)
+        y = (pow(x, 2) - 4) / (x - 1)
         return y
 
     def derive(self, x):
-        resultat = (pow(x, 2) - 2 * x + 4)/(pow(x, 2) - 2 * x + 1)
+        resultat = (pow(x, 2) - 2 * x + 4) / (pow(x, 2) - 2 * x + 1)
         return resultat
 
     def calcptf(self, x):
-        y = x - 3 + (x + 1)/(x - 1)
+        y = x - 3 + (x + 1) / (x - 1)
         return y
 
     def deriveptf(self, x):
-        resultat = 1 - 2/pow(x - 1, 2)
+        resultat = 1 - 2 / pow(x - 1, 2)
         return resultat
 
     def suiteStopCondition(self, x, y):
@@ -61,7 +59,7 @@ class Equation:
     def bissection(self):
         X1 = self.inf
         X2 = self.sup
-        Xm = (self.inf + self.sup)/2
+        Xm = (self.inf + self.sup) / 2
         # catch zero division error & time out error
         try:
             if (self.calc(X1) * self.calc(X2)) > 0:
@@ -100,16 +98,18 @@ class Equation:
             if (self.calc(X1) * self.calc(X2)) > 0:
                 print("Bissection: Pas de solution ou interval non rafiné")
                 return None
-            Xm = X1 - (X2-X1)*(self.calc(X1))/(self.calc(X2)-self.calc(X1))
+            Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
             # print(self.calc(X1), self.calc(Xm), self.calc(X2))
-            while fabs(X2-X1) >= self.Dr and cpt < self.nMax:
+            while fabs(X2 - X1) >= self.Dr and cpt < self.nMax:
                 # print(X1, Xm, X2)
                 cpt += 1
                 if (self.calc(X1) * self.calc(Xm)) < 0:
-                    X2 = Xm; Xm = X1 - (X2-X1)*(self.calc(X1))/(self.calc(X2)-self.calc(X1))
+                    X2 = Xm;
+                    Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
                     continue
                 elif (self.calc(X2) * self.calc(Xm)) < 0:
-                    X1 = Xm; Xm = X1 - (X2-X1)*(self.calc(X1))/(self.calc(X2)-self.calc(X1))
+                    X1 = Xm;
+                    Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
                     if Xm == 0: Xm = self.Dr
                     continue
                 else:
@@ -167,5 +167,6 @@ class Equation:
             print("Points Fixes: => Time out error")
         except OverflowError:
             print("Points Fixes: => Fonctio divergente")
+
 
 Equation()

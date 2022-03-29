@@ -30,11 +30,15 @@ class Euler:
 
     def _getValues(self):
         print("Entrez les valeurs des intervalles [a,b]: ")
-        self.a = float(input("a:"))
-        self.b = float(input("b: "))
-        self.initial = float(input("Valeur initial X0: "))
-        if self.a >= self.b:
-            print("votre intervalle n'est pas valide")
+        try:
+            self.a = float(input("a:"))
+            self.b = float(input("b: "))
+            if self.a >= self.b:
+                print("votre intervalle n'est pas valide")
+                self._getValues()
+            self.initial = float(input("Valeur initial X0: "))
+        except ValueError:
+            print("Données incorrecte")
             self._getValues()
 
     def func(self, X, Y) -> int:
