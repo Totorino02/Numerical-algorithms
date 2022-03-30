@@ -1,5 +1,5 @@
 """
-    name: runge-kutta-2.py
+    name: runge-kutta-4.py
     goal: numeric solve of differential equations
     author: Dr HOUNSI Madouvi antoine-sebastien
     date: 28/03/2022
