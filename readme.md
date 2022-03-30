@@ -14,19 +14,19 @@
 #### Gauss 
     - Algorithm
         
-![gauss method illustration](../images/gauss.png)
+![gauss method illustration](images/gauss.png)
 
 #### Gauss-Jordan
     - Algorithm
-![gauss-jordan method illustration](../images/gauss-jordan.webp)
+![gauss-jordan method illustration](images/gauss-jordan.webp)
 
 #### Gauss-Seidel
     - Algorithm
-![gauss-seidel method illustration](../images/gauss-seidel.png)
+![gauss-seidel method illustration](images/gauss-seidel.png)
 
 #### LU
     - Algorithm
-![gauss-seidel method illustration](../images/lu.gif)
+![gauss-seidel method illustration](images/lu.gif)
 
 #### Choleski
     -Algorithm

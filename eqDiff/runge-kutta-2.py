@@ -1,5 +1,5 @@
 """
-    name: runge-kutta.py
+    name: runge-kutta-2.py
     goal: numeric solve of differential equations
     author: Dr HOUNSI Madouvi antoine-sebastien
     date: 28/03/2022
@@ -11,7 +11,7 @@ import matplotlib.pyplot as pt
 from interpolation.lagrange import Lagrange
 
 
-class RungeKutta:
+class RungeKutta2:
 
     def __init__(self):
         self.a = None
@@ -22,8 +22,8 @@ class RungeKutta:
         vals = np.arange(self.a, self.b+self.pas, self.pas)
         print(len(vals), len(result))
         # print(vals)
-        print(Lagrange("runge-kutta.py").funcLagrange(vals, result, len(result)-1))
-        # Lagrange("runge-kutta.py").showC(vals, result)
+        print(Lagrange("runge-kutta-2.py").funcLagrange(vals, result, len(result) - 1))
+        # Lagrange("runge-kutta-2.py").showC(vals, result)
         pt.scatter(vals, result, label='Courbe Obtenue')
         # pt.plot(vals, [-pow(x, 2)+x+2 for x in vals], label='Courbe')
         pt.legend()
@@ -61,4 +61,4 @@ class RungeKutta:
         return values
 
 
-RungeKutta()
+RungeKutta2()
