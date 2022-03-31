@@ -4,8 +4,10 @@
     author: Dr HOUNSI antoine
     date: 26/01/2022
 """
+
 import math
 from math import fabs, sqrt, pow
+import numpy as np
 
 
 class Equation:
@@ -16,29 +18,36 @@ class Equation:
 
     def _getValues(self):
         try:
+            print("\n -******* Résolution des Equations non linéaires *******-\n")
             self.inf = float(input("Borne inf. : "))
             self.sup = float(input("Borne sup. : "))
-            if self.inf > self.sup:
+            if self.inf >= self.sup:
                 print("\nvotre intervalle n'est pas valide")
                 self._getValues()
-            self.Dr = float(input("Valeur de l'erreur absolue : "))
+            # self.Dr = float(input("Valeur de l'erreur absolue : "))
+            self.Dr = 0.0000000001
             self.Xe = float(input("Xo : "))
             self.nMax = 10000
         except ValueError:
-            print("Données incorrecte")
+            print("\nDonnées incorrectes")
             self._getValues()
 
         self.bissection()
         self.secante()
         self.newton()
         self.pntsFixes()
+        self._getValues()
 
     def calc(self, x):
-        y = (pow(x, 2) - 4) / (x - 1)
+        # y = (pow(x, 2) - 4) / (x - 1)
+        # y = 2 * pow(x, 3) - 7 * pow(x, 2) + 8 * x
+        y = x ** 2 - 2 * x
         return y
 
     def derive(self, x):
-        resultat = (pow(x, 2) - 2 * x + 4) / (pow(x, 2) - 2 * x + 1)
+        # resultat = (pow(x, 2) - 2 * x + 4) / (pow(x, 2) - 2 * x + 1)
+        # resultat = 6 * pow(x, 2) - 14 * x + 8
+        resultat = 2 * x - 2
         return resultat
 
     def calcptf(self, x):
@@ -56,61 +65,89 @@ class Equation:
         else:
             return True
 
+    def bissec(self, X1, X2):
+        Xm = (X1 + X2) / 2
+        while fabs((X2 - X1) / 2) >= self.Dr:
+            if (self.calc(X1) * self.calc(Xm)) < 0:
+                X2 = Xm
+                Xm = (X1 + X2) / 2
+                continue
+            elif (self.calc(X2) * self.calc(Xm)) < 0:
+                X1 = Xm
+                Xm = (X1 + X2) / 2
+                continue
+        return Xm
+
+    def balayage(self, a, b):
+        tab = np.arange(a, b, 0.1)
+        result = list()
+        for i in range(1, len(tab)):
+            if self.calc(tab[i - 1]) * self.calc(tab[i]) < 0:
+                result.append(self.bissec(tab[i - 1], tab[i]))
+        return result
+
     def bissection(self):
         X1 = self.inf
         X2 = self.sup
-        Xm = (self.inf + self.sup) / 2
-        # catch zero division error & time out error
+        # catch zero division error & Traitement trop long
         try:
             if (self.calc(X1) * self.calc(X2)) > 0:
-                print("Bissection: Pas de solution ou interval non rafiné")
-                return None
-            while fabs((X2 - X1) / 2) >= self.Dr:
-                # print(X1, Xm, X2)
-                if (self.calc(X1) * self.calc(Xm)) < 0:
-                    X2 = Xm
-                    Xm = (X1 + X2) / 2
-                    continue
-                elif (self.calc(X2) * self.calc(Xm)) < 0:
-                    X1 = Xm
-                    Xm = (X1 + X2) / 2
-                    continue
-                else:
-                    self.isExist = True
-                    if Xm == 0: Xm = self.Dr
-                    break
-            if self.isExist:
-                print("Resultats Dichotomie: Xm = {0}".format(Xm))
+                Xm = self.balayage(X1, X2)
             else:
-                print("Pas de solution possible")
+                Xm = (self.inf + self.sup) / 2
+                while fabs((X2 - X1) / 2) >= self.Dr:
+                    # print(X1, Xm, X2)
+                    if self.calc(X1) == 0:
+                        Xm = X1
+                    elif self.calc(X2) == 0:
+                        Xm = X2
+                    elif (self.calc(X1) * self.calc(Xm)) < 0:
+                        X2 = Xm
+                        Xm = (X1 + X2) / 2
+                        continue
+                    elif (self.calc(X2) * self.calc(Xm)) < 0:
+                        X1 = Xm
+                        Xm = (X1 + X2) / 2
+                        continue
+                    else:
+                        # self.isExist = True
+                        # if Xm == 0: Xm = self.Dr
+                        Xm = self.balayage(X1, X2)
+                        break
+            print("Resultats Dichotomie: Xm = {0}".format(Xm))
         except ZeroDivisionError:
             print("Dichotomie: => Erreur division par zéro")
         except TimeoutError:
-            print("Dichotomie: => Time out error")
+            print("Dichotomie: => Traitement trop long")
         except OverflowError:
             print("Dichotomie: => Overflow error")
+        except ValueError:
+            print("Dichotomie: => Vous etes sortie du domaine de définition")
 
     def secante(self):
         X1 = self.inf
         X2 = self.sup
         cpt = 0
         try:
-            if (self.calc(X1) * self.calc(X2)) > 0:
+            """if (self.calc(X1) * self.calc(X2)) > 0:
                 print("Bissection: Pas de solution ou interval non rafiné")
-                return None
+                return None"""
             Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
-            # print(self.calc(X1), self.calc(Xm), self.calc(X2))
+
             while fabs(X2 - X1) >= self.Dr and cpt < self.nMax:
-                # print(X1, Xm, X2)
+
                 cpt += 1
-                if (self.calc(X1) * self.calc(Xm)) < 0:
-                    X2 = Xm;
+                # if (self.calc(X1) * self.calc(Xm)) < 0:
+                if Xm > X2:
+                    X1 = X2
+                    X2 = Xm
                     Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
                     continue
-                elif (self.calc(X2) * self.calc(Xm)) < 0:
-                    X1 = Xm;
+                elif Xm < X2:
+                    X1 = X2
+                    X2 = Xm
                     Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
-                    if Xm == 0: Xm = self.Dr
+                    # if Xm == 0: Xm = self.Dr
                     continue
                 else:
                     self.isExist = False
@@ -122,17 +159,17 @@ class Equation:
         except ZeroDivisionError:
             print("Secante: => division par zéro")
         except TimeoutError:
-            print("Secante: => Time out error")
+            print("Secante: => Traitement trop long")
         except OverflowError:
             print("Secante: => Overflow error")
+        except ValueError:
+            print("Dichotomie: => Vous etes sortie du domaine de définition")
 
     def newton(self):
         X1 = self.Xe
         try:
             Xm = X1 - (self.calc(X1) / self.derive(X1))
-            # print(self.calc(X1), self.calc(Xm))
             while fabs(Xm - X1) >= self.Dr:
-                # print(X1, Xm)
                 X1 = Xm
                 Xm = X1 - self.calc(X1) / self.derive(X1)
                 continue
@@ -141,11 +178,13 @@ class Equation:
             else:
                 print("Pas de solution possible")
         except ZeroDivisionError:
-            print("Newton: => Zéro division error")
+            print("Newton: => Division par zéro")
         except TimeoutError:
-            print("Newton: => Time out error")
+            print("Newton: => Traitement trop long")
         except OverflowError:
             print("Newton: => Overflow error")
+        except ValueError:
+            print("Dichotomie: => Vous etes sortie du domaine de définition")
 
     def pntsFixes(self):
         Xo = self.Xe
@@ -162,11 +201,13 @@ class Equation:
                 print(self.deriveptf(X1))
             print("Resultat Points Fixes: Xm = {} ".format(X1))
         except ZeroDivisionError:
-            print("Points Fixes: => Zéro division error")
+            print("Points Fixes: => Division par zéro")
         except TimeoutError:
-            print("Points Fixes: => Time out error")
+            print("Points Fixes: => Traitement trop long")
         except OverflowError:
-            print("Points Fixes: => Fonctio divergente")
+            print("Points Fixes: => Fonction divergente")
+        except ValueError:
+            print("Dichotomie: => Vous etes sortie du domaine de définition")
 
 
 Equation()
