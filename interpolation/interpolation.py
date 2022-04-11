@@ -9,7 +9,9 @@ from os.path import dirname, join
 import matplotlib.pyplot as plt
 import numpy as np
 from interpolation.polynom import Polynom
+from interpolation.polynome import Polynome
 from linearEq.utils.gaussForVal import gauss
+from math import pow, exp
 
 
 class Interpolation:
@@ -30,31 +32,37 @@ class Interpolation:
                 self.X = [k for k in self.X]
                 self.Y = [k for k in self.Y]
                 self.dim = len(self.X)
-                Xval = np.arange(-15, 15, 0.5)
+                Xval = np.arange(-3, 3, 0.1)
+
+                vals = list()
+                for i in range(self.dim):
+                    vals.append([self.X[i], self.Y[i]])
+                # self.polynomeLagrange(vals)
 
                 self.polyN = self.newton()
                 self.polyL = self.lagrange()
-                self.polyM = self.moindreCarre(2)
-                """
-                    print(self.polyN)
-                    print(self.polyL)
-                    print(self.polyM)
-                """
-                plt.plot(np.arange(-20, 20, 0.1), self.calcLagrange(np.arange(-20, 20, 0.1)), label='Courbe lagrange', c='blue')
-                plt.plot(Xval, self.calcNewton(Xval), label='Courbe newton', c='green')
-                plt.plot(Xval, self.calcMoindreCarre(Xval), label='Courbe moindreCarre', c='red')
-                plt.plot(np.arange(-10, 10, 0.1), self.givenFunc(np.arange(-10, 10, 0.1), "X**2 + 1"), label='Courbe', c='black')
-                # plt.plot(np.arange(-30, 30, 2), np.zeros(30), c='black', linestyle='--')
-                # plt.plot(np.zeros(300), np.arange(-300, 300, 2), c='black', linestyle='--')
-                plt.scatter(self.X, self.Y, c='coral', label='Points')
+                self.polyM = self.moindreCarre(4)
+
+                print("\n\t-****** Interpolation ******-\n")
+                print("Newton:",self.polyN)
+                print("Lagrange:",self.polyL)
+                print("Moindre carre:",self.polyM)
+
+                plt.plot(np.arange(-3, 3, 0.1), self.calcLagrange(np.arange(-3, 3, 0.1)), label='Courbe lagrange (C1)', c='blue')
+
+                plt.plot(Xval, self.calcNewton(Xval), label='Courbe newton (C2)', c='green')
+
+                plt.plot(Xval, self.calcMoindreCarre(Xval), label='Courbe moindreCarre (C3)', c='red')
+
+                plt.plot(np.arange(-3, 3, 0.1), self.givenFunc(np.arange(-3, 3, 0.1), "(x**3 - 1)/(x**2 + 1)"), label='Courbe', c='black')
+
+                # plt.scatter(self.X, self.Y, c='coral', label='Points')
                 plt.title("Interpolation:\nPx1 = {}\nPx2 = {}\nPx3 = {}".format(self.polyL, self.polyN, self.polyM))
                 plt.xlabel("X")
                 plt.ylabel("Y")
                 # plt.xticks(np.arange(-30, 30, 2))
                 plt.legend()
                 plt.show()
-        except TypeError:
-            print("Erreur lors du calcul veuillez réessayer")
         except ValueError:
             print("Valeurs mal définies")
 
@@ -65,7 +73,16 @@ class Interpolation:
             for j in range(i + 1):
                 matrix[i][j] = self.calcN(j, self.X[i])
         Coefs = gauss(matrix, self.Y).showResult()
-        polyN = Polynom().build(Coefs)
+        f = [0]
+        for i in range(self.dim):
+            f1 = [Coefs[i]]
+            for j in range(i):
+                f1 = Polynom().mult(f1, [ -self.X[j], 1])
+            f = Polynom().add(f, f1)
+        # print("zzzzz: ",Polynom().build(f))
+
+        # Coefs[0] = -1
+        polyN = Polynom().build(f)
         return polyN
 
     def calcN(self, dim, x):
@@ -74,7 +91,7 @@ class Interpolation:
             val = val * (x - self.X[i])
         return val
 
-    def calcNewton(self, X):
+    def calcNewton(self, x):
         return eval(self.polyN)
 
     """ ===================================================================== """
@@ -85,17 +102,36 @@ class Interpolation:
             for j in range(self.dim):
                 if i != j:
                     Dnmteur = self.X[i] - self.X[j]
-                    fi = Polynom().mult(P1=fi, P2=[self.X[j] / Dnmteur, 1 / Dnmteur])
+                    fi = Polynom().mult(P1=fi, P2=[-self.X[j]/Dnmteur, 1 / Dnmteur])
                     # fi * (x - self.X[j]) / (self.X[i] - self.X[j])
             Px = Polynom().add(Px, Polynom().mult([self.Y[i]], fi))
             # print(Polynom().build(Px))
+        # Px.reverse()
+        """
+        for i in range(len(Px)):
+            if i != 0:
+                Px[i] = Px[i] - Px[i]/5"""
         return Polynom().build(Px)
 
-    def calcLagrange(self, X):
+    def polynomeLagrange(self, listPoint) -> Polynome:
+        n = len(listPoint) - 1
+        P = Polynome(n, 0)
+        X = [el[0] for el in listPoint]
+        fX = [el[1] for el in listPoint]
+        for i in range(n + 1):
+            Oi = Polynome(0, 1)
+            for j in range(n + 1):
+                if (j != i): Oi *= Polynome([-X[j] / (X[i] - X[j]), 1 / (X[i] - X[j])])
+            P += fX[i] * Oi
+        print(P)
+        return P
+
+    def calcLagrange(self, x):
         return eval(self.polyL)
 
-    def givenFunc(self, X, poly):
+    def givenFunc(self, x, poly):
         return eval(poly)
+        # return exp(x-1)/exp(x+1)
 
     """ ===================================================================== """
     def moindreCarre(self, deg):
@@ -115,8 +151,9 @@ class Interpolation:
             temp = [pow(self.X[k], i) * self.Y[k] for k in range(self.dim)]
             vect.append(sum(temp))
         Coefs = gauss(matrix, vect).showResult()
+        Coefs.reverse()
         return Polynom().build(Coefs)
 
-    def calcMoindreCarre(self, X):
+    def calcMoindreCarre(self, x):
         return eval(self.polyM)
 

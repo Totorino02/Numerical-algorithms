@@ -8,11 +8,14 @@ import sys
 from math import pow
 from os.path import dirname, join
 
+
 class gaussSeidel:
 
     def __init__(self, file):
         self.file = file
-        sys.stdin = open(join(dirname(__file__), self.file))
+
+    def _getValues(self, file):
+        sys.stdin = open(join(dirname(__file__), file))
         self.dim = self.countLine(self.file)
         self.matrix = list()
         self.vect = list()
@@ -71,25 +74,27 @@ class gaussSeidel:
         # print(val1)
         interm = [pow(i, 2) for i in self.vect]
         val2 = pow(sum(interm), 0.5)
-        if (val1/val2) <= self.e:
+        if (val1 / val2) <= self.e:
             return True
-        else: return False
+        else:
+            return False
 
     def solution(self):
         cpt = 0
         try:
-            while not self.test(self.initialVal) and cpt < 250:
-                cpt +=1
+            self._getValues(self.file)
+            while not self.test(self.initialVal) and cpt < 350:
+                cpt += 1
                 for i in range(self.dim):
                     sum = 0
                     for j in range(self.dim):
                         if j != i:
-                            sum += self.matrix[i][j]*self.initialVal[j]
+                            sum += self.matrix[i][j] * self.initialVal[j]
                     try:
                         Xi = (1 / self.matrix[i][i]) * (self.vect[i] - sum)
                     except ZeroDivisionError:
                         return "Veuillez Réesayez Probleme d'optimisation systeme"
-                    self.initialVal[i] = Xi
+                    self.initialVal[i] = Xi # round(Xi,6)
         except OverflowError:
             return "GAUSS-SEIDEL :=> Depassement de capacité réessayer avec d'autes valeurs initiales"
         return self.initialVal

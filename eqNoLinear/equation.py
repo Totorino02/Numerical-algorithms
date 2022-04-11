@@ -27,7 +27,7 @@ class Equation:
             # self.Dr = float(input("Valeur de l'erreur absolue : "))
             self.Dr = 0.0000000001
             self.Xe = float(input("Xo : "))
-            self.nMax = 10000
+            self.nMax = 1000
         except ValueError:
             print("\nDonnées incorrectes")
             self._getValues()
@@ -41,21 +41,21 @@ class Equation:
     def calc(self, x):
         # y = (pow(x, 2) - 4) / (x - 1)
         # y = 2 * pow(x, 3) - 7 * pow(x, 2) + 8 * x
-        y = x ** 2 - 2 * x
+        y = x ** 2 - 5 * x + 6
         return y
 
     def derive(self, x):
         # resultat = (pow(x, 2) - 2 * x + 4) / (pow(x, 2) - 2 * x + 1)
         # resultat = 6 * pow(x, 2) - 14 * x + 8
-        resultat = 2 * x - 2
+        resultat = 2 * x - 5
         return resultat
 
     def calcptf(self, x):
-        y = x - 3 + (x + 1) / (x - 1)
+        y = -6 / (x - 5)
         return y
 
     def deriveptf(self, x):
-        resultat = 1 - 2 / pow(x - 1, 2)
+        resultat = 6 / pow(x - 5, 2)
         return resultat
 
     def suiteStopCondition(self, x, y):
@@ -99,8 +99,10 @@ class Equation:
                     # print(X1, Xm, X2)
                     if self.calc(X1) == 0:
                         Xm = X1
+                        break
                     elif self.calc(X2) == 0:
                         Xm = X2
+                        break
                     elif (self.calc(X1) * self.calc(Xm)) < 0:
                         X2 = Xm
                         Xm = (X1 + X2) / 2
@@ -114,6 +116,9 @@ class Equation:
                         # if Xm == 0: Xm = self.Dr
                         Xm = self.balayage(X1, X2)
                         break
+            if isinstance(Xm, list) and len(Xm) == 0:
+                print("Resultats Dichotomie: Pas de solution")
+                return
             print("Resultats Dichotomie: Xm = {0}".format(Xm))
         except ZeroDivisionError:
             print("Dichotomie: => Erreur division par zéro")
@@ -123,39 +128,49 @@ class Equation:
             print("Dichotomie: => Overflow error")
         except ValueError:
             print("Dichotomie: => Vous etes sortie du domaine de définition")
+        except:
+            print("Dichotomie: => Erreur lors de l'execution")
+
+    def calSecante(self, X1, X2):
+        tab = np.arange(X1, X2, 0.1)
+        result = list()
+        for i in range(1, len(tab)):
+            if self.calc(tab[i - 1]) * self.calc(tab[i]) < 0:
+                result.append(self.secante_ballage(tab[i - 1], tab[i]))
+        return result
+
+    def secante_ballage(self, X1, X2):
+        Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
+        return Xm
 
     def secante(self):
         X1 = self.inf
         X2 = self.sup
         cpt = 0
         try:
-            """if (self.calc(X1) * self.calc(X2)) > 0:
-                print("Bissection: Pas de solution ou interval non rafiné")
-                return None"""
-            Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
-
-            while fabs(X2 - X1) >= self.Dr and cpt < self.nMax:
-
-                cpt += 1
-                # if (self.calc(X1) * self.calc(Xm)) < 0:
-                if Xm > X2:
-                    X1 = X2
-                    X2 = Xm
-                    Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
-                    continue
-                elif Xm < X2:
-                    X1 = X2
-                    X2 = Xm
-                    Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
-                    # if Xm == 0: Xm = self.Dr
-                    continue
-                else:
-                    self.isExist = False
-                    break
-            if self.isExist:
-                print("Resultats Sécante: Xm = {0}".format(Xm))
+            if (self.calc(X1) * self.calc(X2)) > 0:
+                Xm = self.calSecante(X1, X2)
             else:
-                print("Pas de solution possible")
+                Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
+
+                while fabs(X2 - X1) >= self.Dr and cpt < self.nMax:
+                    cpt += 1
+                    if self.calc(X1) == 0:
+                        Xm = X1
+                        break
+                    elif self.calc(X2) == 0:
+                        Xm = X2
+                        break
+                    # if (self.calc(X1) * self.calc(Xm)) < 0:
+                    # if Xm > X2:
+                    X1 = X2
+                    X2 = Xm
+                    Xm = X1 - (X2 - X1) * (self.calc(X1)) / (self.calc(X2) - self.calc(X1))
+            if isinstance(Xm, list) and len(Xm) == 0:
+                print("Resultats Secante: => Pas de solution")
+                return
+            else:
+                print("Resultats Secante: Xm = {0}".format(Xm))
         except ZeroDivisionError:
             print("Secante: => division par zéro")
         except TimeoutError:
@@ -163,7 +178,9 @@ class Equation:
         except OverflowError:
             print("Secante: => Overflow error")
         except ValueError:
-            print("Dichotomie: => Vous etes sortie du domaine de définition")
+            print("Secante: => Vous etes sortie du domaine de définition")
+        except:
+            print("Secante: => Erreur lors de l'execution")
 
     def newton(self):
         X1 = self.Xe
@@ -185,6 +202,8 @@ class Equation:
             print("Newton: => Overflow error")
         except ValueError:
             print("Dichotomie: => Vous etes sortie du domaine de définition")
+        except:
+            print("Erreur lors de l'execution")
 
     def pntsFixes(self):
         Xo = self.Xe
@@ -198,7 +217,7 @@ class Equation:
                 cpt += 1
                 Xo = X1
                 X1 = self.calcptf(Xo)
-                print(self.deriveptf(X1))
+                # print(self.deriveptf(X1))
             print("Resultat Points Fixes: Xm = {} ".format(X1))
         except ZeroDivisionError:
             print("Points Fixes: => Division par zéro")
@@ -207,7 +226,7 @@ class Equation:
         except OverflowError:
             print("Points Fixes: => Fonction divergente")
         except ValueError:
-            print("Dichotomie: => Vous etes sortie du domaine de définition")
+            print("Points Fixes: => Vous etes sortie du domaine de définition")
 
 
 Equation()

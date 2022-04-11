@@ -77,7 +77,7 @@ class Gauss:
             self.getData(self.file)
             matrix = self.triangularize(self.dim, self.matrix)
             dim = self.dim
-            vect = np.zeros(dim)
+            vect = [0 for i in range(dim)]
             for i in range(dim):
                 vect[i] = matrix[i][dim]
                 matrix[i].pop(dim)
@@ -90,8 +90,8 @@ class Gauss:
                         if vect[i] != 0:
                             return "Solution impossible"
                         elif vect[i] == 0:
-                            return "Il existe une infinité de solution"
-                    return "Il existe une infinité de solution"
+                            return "division par zero"
+                    return "Solution impossible"
 
             # unique solution
             results.append(round(vect[dim - 1] / matrix[dim - 1][dim - 1], 2))

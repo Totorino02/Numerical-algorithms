@@ -24,7 +24,7 @@ class determinant:
                 self.matrixU.append([0 for i in range(self.dim)])
                 self.matrixL.append([0 for i in range(self.dim)])
                 self.vect.append(float(line[1]))
-
+            print()
         except TypeError:
             print("type error")
 

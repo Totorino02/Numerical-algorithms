@@ -69,7 +69,7 @@ class Thomas:
             dim = self.dim
             self.getData(self.file)
             if not self.isTridiagonal(self.matrix, dim):
-                return "Votre matrix n'est pas tridiagonal"
+                return "Votre matrice n'est pas tridiagonale"
 
             matL, matU = self.factorization(self.matrix, dim)
             sY = list()

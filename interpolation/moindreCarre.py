@@ -36,7 +36,7 @@ class MoindreCarre:
                 self.polyM5 = self.moindreCarre(5)
 
                 # print the graph
-                plt.plot(Xval, self.givenFunc(Xval, "X**2 + 1"), label='Courbe', c='black')
+                plt.plot(Xval, self.givenFunc(Xval, "(x**3 - 1)/(x**2 + 1)"), label='Courbe', c='black')
                 plt.plot(Xval, self.calc(Xval, self.polyM2), label='Courbe moindreCarre 2')
                 plt.plot(Xval, self.calc(Xval, self.polyM3), label='Courbe moindreCarre 3')
                 plt.plot(Xval, self.calc(Xval, self.polyM4), label='Courbe moindreCarre 4')
@@ -52,10 +52,10 @@ class MoindreCarre:
         except TypeError:
             print("None Type n'est pas un type primitif")
 
-    def calc(self, X, poly):
+    def calc(self, x, poly):
         return eval(poly)
 
-    def givenFunc(self, X, poly):
+    def givenFunc(self, x, poly):
         return eval(poly)
 
     def moindreCarre(self, deg):

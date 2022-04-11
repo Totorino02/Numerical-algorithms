@@ -75,14 +75,14 @@ class Polynom:
                     str += "-({0})".format(-tab[i])
             elif i == 1:
                 if tab[i] > 0:
-                    str += "+({0}*X)".format(tab[i])
+                    str += "+({0}*x)".format(tab[i])
                 elif tab[i] < 0:
-                    str += "-({0}*X)".format(-tab[i])
+                    str += "-({0}*x)".format(-tab[i])
             else:
                 if tab[i] > 0:
-                    str += "+({0}*X**{1})".format(tab[i], i)
+                    str += "+({0}*x**{1})".format(tab[i], i)
                 elif tab[i] < 0:
-                    str += "-({0}*X**{1})".format(-tab[i], i)
+                    str += "-({0}*x**{1})".format(-tab[i], i)
         return str
 
     def div(self, P1, P2):
@@ -93,6 +93,6 @@ p1 = Polynom().mult([1], [0 / -2, 1 / -2])
 p2 = Polynom().mult(p1, [-1 / -3, 1 / -3])
 p3 = Polynom().mult(p2, [-2 / -4, 1 / -4])
 
-"""print(p3)
-print(Polynom().build(p3))
-"""
+if __name__ == "__main__":
+    print(p1)
+    print(Polynom().build(p1))

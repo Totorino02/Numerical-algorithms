@@ -13,7 +13,9 @@ class Choleski:
 
     def __init__(self, file):
         self.file = file
-        sys.stdin = open(join(dirname(__file__), self.file))
+
+    def _getValues(self, file):
+        sys.stdin = open(join(dirname(__file__), file))
         self.dim = self.countLine(file)
         self.matrix = list()
         self.matrixL = list()
@@ -77,37 +79,53 @@ class Choleski:
             :return: solution
         """
         # uTM => sY
-        sY = list()
-        if self.isSymetric():
-            try:
-                self.triangularize()
-            except ZeroDivisionError:
-                return "CHOLESKI: La matrice est mal définie"
-            except ValueError:
-                return "CHOLESKI: La matrice est mal définie"
-        else:
-            return "CHOLESKI: La Matrice n'est pas symetrique"
-        sY.append(self.vect[0] / self.matrixL[0][0])
-        for i in range(1, self.dim):
-            s1 = 0
-            for k in range(i):
-                temp = self.matrixL[i][k] * sY[k]
-                s1 += temp
-            val = (self.vect[i] - s1) / self.matrixL[i][i]
-            sY.append(val)
-        # lTM => s
-        s = list()
-        s.append(sY[self.dim - 1] / self.matrixU[self.dim - 1][self.dim - 1])
-        for i in range(self.dim - 2, -1, -1):
-            s1 = 0
-            for k in range(self.dim - 1, i, -1):
-                temp = self.matrixU[i][k] * s[self.dim - k - 1]
-                s1 += temp
-            val = (sY[i] - s1) / self.matrixU[i][i]
-            s.append(val)
-        s = [round(i, 2) for i in s]
-        s.reverse()
-        return s
+        try:
+            self._getValues(self.file)
+            sY = list()
+            if self.isSymetric():
+                try:
+                    self.triangularize()
+                except ZeroDivisionError:
+                    return "La matrice est mal définie"
+                except ValueError:
+                    return "La matrice est mal définie"
+            else:
+                return "La Matrice n'est pas symetrique"
+            sY.append(self.vect[0] / self.matrixL[0][0])
+            for i in range(1, self.dim):
+                s1 = 0
+                for k in range(i):
+                    temp = self.matrixL[i][k] * sY[k]
+                    s1 += temp
+                val = (self.vect[i] - s1) / self.matrixL[i][i]
+                sY.append(val)
+            # lTM => s
+            s = list()
+            s.append(sY[self.dim - 1] / self.matrixU[self.dim - 1][self.dim - 1])
+            for i in range(self.dim - 2, -1, -1):
+                s1 = 0
+                for k in range(self.dim - 1, i, -1):
+                    temp = self.matrixU[i][k] * s[self.dim - k - 1]
+                    s1 += temp
+                val = (sY[i] - s1) / self.matrixU[i][i]
+                s.append(val)
+            s = [round(i, 2) for i in s]
+            s.reverse()
+            return s
+        except ZeroDivisionError:
+            return "division per zéro"
+        except RuntimeError:
+            return "Erreur lors de l'execution"
+        except TypeError:
+            return "Données non variables"
+        except IndexError:
+            return "Erreur lors de l'indexation"
+        except EOFError:
+            return "Eof error"
+        except ValueError:
+            return "Erreur lors de la saisie"
+
+
 
     def showMatrixL(self):
         """

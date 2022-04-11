@@ -70,8 +70,11 @@ class Crout:
         """
         # base values
         dim = self.dim
-        matrixL = np.zeros([dim, dim])
-        matrixU = np.zeros([dim, dim])
+        matrixL = list()
+        matrixU = list()
+        for i in range(dim):
+            matrixL.append([0 for i in range(dim)])
+            matrixU.append([0 for i in range(dim)])
         self.inversion(0, self.matrix)
         for i in range(self.dim):
             matrixL[i][0] = round(self.matrix[i][0], 2)
@@ -156,10 +159,12 @@ class Crout:
         except RuntimeError:
             return "Erreur lors de l'execution"
         except TypeError:
-            return "Données non variables"
+            return "Données non valables (infinie ou alphabétique)"
         except IndexError:
             return "Erreur lors de l'indexation"
         except EOFError:
             return "Eof error"
         except ValueError:
             return "Erreur lors de la saisie"
+        except:
+            print("Erreur lors de l'execution")

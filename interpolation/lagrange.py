@@ -38,7 +38,7 @@ class Lagrange:
                     Y2.append(self.calcLagrange(i))
 
                 plt.plot(Xval, self.calcLagrange(Xval), label='Courbe obtenue')
-                plt.plot(np.arange(-5, 5, 0.1), self.givenFunc(np.arange(-5, 5, 0.1), "X**2 + 1"), label='Courbe',
+                plt.plot(np.arange(-5, 5, 0.1), self.givenFunc(np.arange(-5, 5, 0.1), "(x**3 - 1)/(x**2 + 1)"), label='Courbe',
                          c='black')
                 plt.scatter(X, Y2, c='coral', label='Points')
                 plt.title("Interpolation de Lagrange\nPx = {}".format(self.poly))
@@ -67,6 +67,6 @@ class Lagrange:
     def calcLagrange(self, X):
         return eval(self.poly)
 
-    def givenFunc(self, X, poly):
+    def givenFunc(self, x, poly):
         return eval(poly)
 

@@ -79,7 +79,7 @@ class jacobi:
         solution = [0 for i in range(self.dim)]
         cpt = 0
         try:
-            while not self.test(self.initialVal) and cpt < 200:
+            while not self.test(self.initialVal) and cpt < 600:
                 cpt +=1
                 for i in range(self.dim):
                     sum = 0
@@ -91,7 +91,7 @@ class jacobi:
                     except ZeroDivisionError:
                         return "Veuillez Réesayez Probleme d'optimisation systeme"
                     solution[i] = Xi
-                self.initialVal = [i for i in solution]
+                self.initialVal = [round(i, 6) for i in solution]
         except OverflowError:
             return "JACOBI :=> Depassement de capacité réessayer avec d'autes valeurs initiales"
         except IndexError:

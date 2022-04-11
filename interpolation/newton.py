@@ -38,7 +38,7 @@ class Newton:
                 Xval = np.arange(-10, 10, 0.1)
                 plt.plot(Xval, self.calcNewton(Xval), label='Courbe obtenue')
                 plt.scatter(self.X, self.Y, c='blue', label='Points Données')
-                plt.plot(Xval, self.givenFunc(Xval, "X**2 + 1"), label='Courbe', c='red')
+                plt.plot(Xval, self.givenFunc(Xval, "(x**3 - 1)/(x**2 + 1)"), label='Courbe', c='red')
                 plt.title("Interpolation de Newton\nPx = {}".format(self.poly))
                 plt.xlabel("X --->")
                 plt.ylabel("Y --->")
@@ -55,8 +55,8 @@ class Newton:
             val = val * (x - self.X[i])
         return val
 
-    def calcNewton(self, X):
+    def calcNewton(self, x):
         return eval(self.poly)
 
-    def givenFunc(self, X, poly):
+    def givenFunc(self, x, poly):
         return eval(poly)

@@ -6,10 +6,9 @@
 """
 import sys
 from os.path import dirname, join
-import numpy as np
 
 
-class Doulit:
+class Doolittle:
 
     def __init__(self, file):
         self.vect = None
@@ -70,12 +69,17 @@ class Doulit:
         """
         # base values
         dim = self.dim
-        matrixL = np.zeros([dim, dim])
-        matrixU = np.zeros([dim, dim])
+        matrixL = list()
+        matrixU = list()
+        for i in range(dim):
+            matrixL.append([0 for i in range(dim)])
+            matrixU.append([0 for i in range(dim)])
         self.inversion(0, self.matrix)
         for i in range(self.dim):
-            matrixL[i][0] = round(self.matrix[i][0], 2)
-            matrixU[0][i] = round((self.matrix[0][i]) / (matrixL[0][0]), 2)
+            temp1 = round(self.matrix[i][0], 2)
+            matrixL[i][0] = temp1
+            temp2 = round((self.matrix[0][i]) / (matrixL[0][0]), 2)
+            matrixU[0][i] = temp2
         for i in range(self.dim):
             matrixU[i][i] = 1
 
@@ -140,10 +144,15 @@ class Doulit:
             s.append(sY[self.dim - 1])
             for i in range(self.dim - 2, -1, -1):
                 s1 = 0
-                for k in range(self.dim - 1, i, -1):
-                    temp = matrixU[i][k] * s[self.dim - k - 1]
-                    s1 += temp
                 try:
+                    for k in range(self.dim - 1, i, -1):
+                        temp = matrixU[i][k] * s[self.dim - k - 1]
+                        s1 += temp
+                except:
+                    return "erreur"
+                try:
+                    if matrixU[i][i] == 0:
+                        return "Doulit division par zéro"
                     val = (sY[i] - s1) / matrixU[i][i]
                 except ZeroDivisionError:
                     return "Veillez réessayer"
@@ -156,10 +165,12 @@ class Doulit:
         except RuntimeError:
             return "Erreur lors de l'execution"
         except TypeError:
-            return "Données non variables, veuillez resaisir les données"
+            return "Données non valables (infinie ou alphabétique)"
         except IndexError:
-            return "Erreur lors de l'indexation, veuillez resaisir les données"
+            return "Erreur lors de l'indexation"
         except EOFError:
             return "Eof error"
         except ValueError:
             return "Erreur lors de la saisie"
+        except:
+            print("Erreur lors de l'execution")
